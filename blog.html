@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-theme="light">
+
+<head>
+    <link rel="icon" type="image/png" href="assets/fav.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Tea House & Specialty Chai Stall</title>
+    <!-- Tailwind + FontAwesome -->
+    <script src="tailwind.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <style>
+        /* ========== THEME VARIABLES (performance/vintage-modern) ========== */
+        :root,
+        html[data-theme='light'] {
+            --bg-body: #FAF4E8;
+            --text-primary: #3E2723;
+            --text-secondary: #5D4037;
+            --accent: #D84315;
+            --accent-text: #BF360C;
+            --accent-dark: #A62A08;
+            --primary: #4E342E;
+            --card-bg: #FFFFFF;
+            --border-light: #EFEBE9;
+            --hover-bg: #FBE9E7;
+            --footer-bg: #211512;
+            --footer-text: #D7CCC8;
+            --rating-star: #FFB300;
+        }
+
+        html[data-theme='dark'] {
+            --bg-body: #1E120D;
+            --text-primary: #EFEBE9;
+            --text-secondary: #BCAAA4;
+            --accent: #FF7043;
+            --accent-text: #FF8A65;
+            --accent-dark: #F4511E;
+            --primary: #8D6E63;
+            --card-bg: #2D1C15;
+            --border-light: #4E342E;
+            --hover-bg: #3E2723;
+            --footer-bg: #110906;
+            --footer-text: #D7CCC8;
+            --rating-star: #FFCA28;
+        }
+
+        body {
+            background: var(--bg-body);
+            color: var(--text-primary);
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            transition: background-color 0.25s ease, color 0.2s;
+            overflow-x: hidden;
+        }
+
+        .text-accent {
+            color: var(--accent-text);
+        }
+
+        .bg-accent {
+            background-color: var(--accent);
+        }
+
+        .border-accent {
+            border-color: var(--accent-text);
+        }
+
+        .hover\:bg-accent\/10:hover {
+            background-color: color-mix(in srgb, var(--accent) 10%, transparent);
+        }
+
+        .bg-card {
+            background-color: var(--card-bg);
+        }
+
+        .text-secondary {
+            color: var(--text-secondary);
+        }
+
+        .border-border {
+            border-color: var(--border-light);
+        }
+
+        /* Navbar + glassmorphic */
+        #main-header nav {
+            background: var(--card-bg);
+            backdrop-filter: blur(0px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+        }
+
+        html[data-theme='dark'] #main-header nav {
+            background: rgba(30, 41, 59, 0.95);
+            backdrop-filter: blur(4px);
+        }
+
+        .nav-link {
+            position: relative;
+            transition: 0.2s;
+            font-weight: 500;
+        }
+
+        .nav-link.active {
+            color: var(--accent);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -6px;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: 0.2s;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Dropdown style */
+        .dropdown-wrapper {
+            position: relative;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 110%;
+            left: 0;
+            background: var(--card-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 0.75rem;
+            min-width: 190px;
+            padding: 0.4rem;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-8px);
+            transition: all 0.2s ease-in-out;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            z-index: 100;
+            overflow: hidden;
+        }
+
+        .dropdown-wrapper.open .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu a {
+            display: flex;
+            align-items: center;
+            padding: 0.6rem 1rem;
+            color: var(--text-primary);
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .dropdown-menu a:hover {
+            background: var(--hover-bg);
+            color: var(--accent);
+            transform: translateX(4px);
+        }
+
+        /* Tire comparison cards */
+        .tire-card {
+            transition: all 0.2s;
+            background: var(--card-bg);
+            border-radius: 1.5rem;
+            border: 1px solid var(--border-light);
+            overflow: hidden;
+        }
+
+        .tire-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-primary { white-space: nowrap;
+            background: var(--accent);
+            color: white;
+            border-radius: 9999px;
+            transition: 0.2s;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-dark);
+            transform: scale(1.02);
+        }
+
+        .btn-outline { white-space: nowrap;
+            border: 1.5px solid var(--accent-text);
+            color: var(--accent-text);
+            border-radius: 9999px;
+            background: transparent;
+            transition: 0.2s;
+        }
+
+        .btn-outline:hover {
+            background: var(--accent);
+            color: white;
+        }
+
+        .rating-star {
+            color: var(--rating-star);
+        }
+
+                .status-badge {
+            background: var(--accent);
+            color: #ffffff;
+            border-radius: 999px;
+            padding: 0.3rem 0.8rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            box-shadow: 0 2px 10px rgba(139, 92, 246, 0.3);
+        }
+
+        .vehicle-track {
+            background: var(--card-bg);
+            border-left: 4px solid var(--accent);
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: 0.7s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        button:focus,
+        .dropdown-toggle:focus {
+            outline: none;
+            box-shadow: none;
+        }
+
+        .dropdown-toggle {
+            -webkit-appearance: none;
+            appearance: none;
+            border: none;
+            background: transparent;
+        }
+
+        @media (max-width: 1279px) {
+            .dropdown-menu {
+                position: static;
+                display: none;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                margin-top: 0.5rem;
+            }
+
+            .dropdown-wrapper.open .dropdown-menu {
+                display: block;
+            }
+        }
+
+        /* Mobile Drawer Link Hover & Active Underlines */
+        #mobile-drawer nav a:not(.rounded-full) {
+            position: relative;
+            transition: color 0.2s ease;
+            width: fit-content;
+        }
+
+        #mobile-drawer nav a.active:not(.rounded-full) {
+            color: var(--accent-text) !important;
+        }
+
+        #mobile-drawer nav a:not(.rounded-full)::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -2px;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.2s ease;
+        }
+
+        #mobile-drawer nav a:not(.rounded-full):hover::after {
+            width: 100%;
+        }
+
+        /* RTL support for navigation spacing, underlines and menus */
+        html[dir="rtl"] #main-header .space-x-8 > :not([hidden]) ~ :not([hidden]) {
+            margin-right: 2rem !important;
+            margin-left: 0 !important;
+        }
+        html[dir="rtl"] .dropdown-menu {
+            left: auto;
+            right: 0;
+        }
+        html[dir="rtl"] .dropdown-menu a:hover {
+            transform: translateX(-4px);
+        }
+        html[dir="rtl"] .hover\:translate-x-1:hover {
+            transform: translateX(-0.25rem) !important;
+        }
+        html[dir="rtl"] .nav-link::after {
+            left: auto;
+            right: 0;
+        }
+        html[dir="rtl"] #mobile-drawer nav a:not(.rounded-full)::after {
+            left: auto;
+            right: 0;
+        }
+    </style>
+    <style id="typography-alignment">
+        /* Typography Alignment & Consistency Overrides */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 500 !important;
+        }
+        /* Keep paragraph weights 400-500 */
+        p:not(.font-medium), div.text-secondary {
+            font-weight: 400 !important;
+        }
+        /* Ensure proper text alignment inside cards */
+        .tire-card, .bg-card, .card {
+            text-align: left !important;
+        }
+        .text-center .tire-card, .text-center .bg-card {
+            text-align: left !important;
+        }
+        /* Reduce overly wide paragraphs inside containers for readability */
+        .container p, section > div > p.text-secondary {
+            max-width: 65ch;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .tire-card p, .bg-card p, .card p, .text-left p {
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+            max-width: none !important;
+        }
+    </style>
+    <style id="cta-improvements">
+        /* Primary CTA Highlights */
+        .btn-primary { white-space: nowrap;
+            box-shadow: 0 4px 12px 0 rgba(139, 92, 246, 0.4);
+            color: #ffffff !important;
+            font-weight: 600 !important;
+        }
+        html[data-theme='dark'] .btn-primary { white-space: nowrap;
+            box-shadow: 0 4px 12px 0 rgba(139, 92, 246, 0.3);
+            color: #ffffff !important; /* High contrast in dark mode */
+            font-weight: 600 !important;
+        }
+        
+        /* Hover Color Consistency & Contrast */
+        .btn-primary:hover {
+            background-color: var(--accent-dark) !important;
+            transform: translateY(-1px) scale(1.02);
+            box-shadow: 0 6px 16px 0 rgba(139, 92, 246, 0.5);
+        }
+        html[data-theme='dark'] .btn-primary:hover {
+            box-shadow: 0 6px 16px 0 rgba(139, 92, 246, 0.4);
+        }
+        
+        .btn-outline { white-space: nowrap;
+            color: var(--accent-text) !important;
+            border-color: var(--accent-text) !important;
+        }
+        .btn-outline:hover {
+            background-color: var(--accent) !important;
+            color: #ffffff !important;
+            transform: translateY(-1px);
+        }
+        html[data-theme='dark'] .btn-outline:hover {
+            color: #ffffff !important; /* High contrast in dark mode */
+        }
+
+        /* Align CTA buttons consistently inside cards/grids */
+        .tire-card, .dashboard-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+            gap: 1.25rem;
+        }
+        .tire-card > div:last-child, .dashboard-card > div:last-child, .dashboard-card > button:last-child {
+            margin-top: auto;
+        }
+    </style>
+    <style id="image-improvements">
+        /* Prevent image distortion globally */
+        img:not([src*="fav.png"]):not(.object-contain) {
+            object-fit: cover !important;
+        }
+        
+        /* Ensure proper background overlays for readability (apply to containers if needed) */
+        .bg-overlay {
+            position: relative;
+        }
+        .bg-overlay::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.8) 50%, rgba(0,0,0,0.95) 100%);
+            border-radius: inherit;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .bg-overlay > *:not(img) {
+            position: relative;
+            z-index: 2;
+        }
+    </style>
+    <style id="responsive-fixes">
+        /* Guarantee text wrapping on small screens */
+        body {
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            -ms-word-break: break-all;
+            word-break: break-word;
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+
+    <!-- Fixed Header -->
+    <header class="fixed top-0 left-0 w-full z-50 pt-3" id="main-header">
+        <nav
+            class="max-w-7xl mx-auto px-5 py-3 rounded-2xl flex items-center justify-between backdrop-blur-sm border border-border">
+            <a href="index.html" class="text-2xl font-bold tracking-tight text-accent flex items-center gap-2" style="font-weight: 700 !important;"><i class="fa-solid fa-mug-hot"></i> Chai House</a>
+            <!-- Desktop Center Nav -->
+            <div class="hidden xl:flex items-center space-x-8 rtl:space-x-reverse text-sm font-medium">
+                <div class="dropdown-wrapper">
+                    <button class="nav-link dropdown-toggle inline-flex items-center gap-1 active">
+                        <span>Home</span><i
+                            class="fas fa-chevron-down text-[10px] leading-none inline-block translate-y-[2.5px]"></i>
+                    </button>
+                    <div class="dropdown-menu">
+                        <a href="index.html" class="text-accent font-medium">Home 1</a>
+                        <a href="home2.html">Home 2</a>
+                    </div>
+                </div>
+                
+                <a href="menu.html" class="nav-link">Menu</a>
+                <a href="loyalty.html" class="nav-link">Loyalty Program</a>
+                <a href="gallery.html" class="nav-link">Gallery</a>
+                <a href="blog.html" class="nav-link">Blog</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </div>
+            <div class="hidden xl:flex items-center gap-4">
+                <button id="theme-toggle" class="text-secondary hover:text-accent transition-colors p-2" title="Toggle Dark/Light Mode">
+                    <i class="fas fa-moon light-icon"></i>
+                    <i class="fas fa-sun dark-icon hidden"></i>
+                </button>
+                <button id="lang-icon" class="text-secondary hover:text-accent transition-colors p-2" title="Toggle RTL/LTR">
+                    <i class="fas fa-exchange-alt"></i>
+                </button>
+                <a href="menu.html" class="btn-primary px-6 py-2 text-sm font-medium"><i class="fas fa-mug-hot mr-1"></i> Order Now</a>
+            </div>
+            <div class="xl:hidden flex items-center gap-3">
+                
+                <button id="drawer-toggle" class="p-2 text-accent"><i class="fas fa-bars text-2xl"></i></button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobile-drawer" class="fixed inset-0 z-[100] pointer-events-none">
+        <div id="drawer-backdrop" class="absolute inset-0 bg-black/50 opacity-0 transition pointer-events-none"></div>
+        <div id="drawer-panel" class="absolute top-0 left-0 w-80 h-full bg-card shadow-2xl transform -translate-x-full transition-transform duration-300 p-6 overflow-y-auto">
+            <div class="flex justify-between items-center border-b border-border pb-4"><a href="index.html" class="text-2xl font-bold tracking-tight text-accent flex items-center gap-2" style="font-weight: 700 !important;; color: var(--accent-text) !important;"><i class="fa-solid fa-mug-hot"></i> Chai House</a><button id="drawer-close"><i class="fas fa-times text-xl"></i></button></div>
+            <nav class="flex flex-col gap-3 mt-6">
+                <div>
+                    <button id="mobile-home-toggle" class="flex w-full justify-between items-center py-2 font-medium text-accent">Home <i class="fas fa-chevron-down text-xs"></i></button>
+                    <div id="mobile-home-submenu" class="pl-4 flex flex-col gap-2 mt-1 border-l border-border">
+                        <a href="index.html" class="text-accent font-medium">Home 1</a><a href="home2.html">Home 2</a>
+                    </div>
+                </div>
+                
+                <a href="menu.html" class="py-2 font-medium">Menu</a>
+                <a href="loyalty.html" class="py-2 font-medium">Loyalty Program</a>
+                <a href="gallery.html" class="py-2 font-medium">Gallery</a>
+                <a href="blog.html" class="py-2 font-medium">Blog</a>
+                <a href="about.html" class="py-2 font-medium">About</a>
+                <a href="contact.html" class="py-2 font-medium">Contact</a>
+                
+                <div class="pt-4 border-t border-border flex gap-3 mt-4">                    <a href="menu.html" class="flex-1 text-center bg-accent rounded-full py-2 text-white font-medium"><i class="fas fa-mug-hot mr-1"></i> Order Now</a>
+                </div>
+                <div class="flex justify-around mt-6 pt-2">
+                    <button id="mobile-theme-btn" class="p-2 text-secondary hover:text-accent transition-colors">
+                        <i class="fas fa-moon light-icon"></i>
+                        <i class="fas fa-sun dark-icon hidden"></i> Theme
+                    </button>
+                    <button id="mobile-rtl-btn" class="p-2 text-secondary hover:text-accent transition-colors">
+                        <i class="fas fa-exchange-alt"></i> RTL
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+  <main class="pt-24">
+<!-- ================= SECTION 1: HERO — SPLIT LAYOUT (LEFT CONTENT / RIGHT IMAGE) ================= -->
+<section class="relative pt-8 md:pt-12 pb-20" style="background: var(--bg-body);">
+    <div class="max-w-7xl mx-auto px-5 w-full">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+            <!-- LEFT: Content -->
+            <div class="order-2 lg:order-1 text-center lg:text-left">
+                <div class="inline-flex items-center gap-2 bg-[var(--hover-bg)] border border-[var(--border-light)] rounded-full px-4 py-1.5 mb-6">
+                    <i class="fas fa-pen-fancy text-[var(--accent-text)] text-xs"></i>
+                    <span class="text-xs font-semibold tracking-wider uppercase" style="color: var(--accent-text);">The Chai Journal</span>
+                </div>
+
+                <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-6xl font-semibold leading-[1.05] mb-6" style="color: var(--text-primary); font-weight: 600 !important;">
+                    Stories Brewed<br>
+                    <span style="color: var(--accent-text);">Fresh Daily.</span>
+                </h1>
+
+                <p class="text-base sm:text-lg max-w-xl mx-auto lg:mx-0 mb-8 leading-relaxed" style="color: var(--text-secondary);">
+                    Recipes, brewing guides, cultural stories, and behind-the-counter moments. 
+                    Everything we love about chai, tea, and the people who drink them.
+                </p>
+
+                <!-- Quick Info Badges -->
+                <div class="flex flex-wrap items-center justify-center lg:justify-start gap-3 mb-8">
+                    <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium border border-[var(--border-light)] bg-[var(--card-bg)]" style="color: var(--text-secondary);">
+                        <i class="fas fa-book-open text-[var(--accent-text)]"></i> 80+ Articles
+                    </span>
+                    <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium border border-[var(--border-light)] bg-[var(--card-bg)]" style="color: var(--text-secondary);">
+                        <i class="fas fa-tags text-[var(--accent-text)]"></i> 6 Categories
+                    </span>
+                    <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium border border-[var(--border-light)] bg-[var(--card-bg)]" style="color: var(--text-secondary);">
+                        <i class="fas fa-calendar text-[var(--accent-text)]"></i> Weekly Posts
+                    </span>
+                </div>
+
+                <!-- CTA Buttons -->
+                <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                    <a href="#latest" class="btn-primary px-8 py-3.5 text-base font-semibold w-full sm:w-auto">
+                        <i class="fas fa-newspaper mr-2"></i> Read Latest
+                    </a>
+                    <a href="#categories" class="btn-outline px-8 py-3.5 text-base font-semibold w-full sm:w-auto">
+                        <i class="fas fa-layer-group mr-2"></i> Browse Topics
+                    </a>
+                </div>
+            </div>
+
+            <!-- RIGHT: Image Stack -->
+            <div class="order-1 lg:order-2 relative">
+                <div class="grid grid-cols-2 gap-4">
+                    <!-- Main Image -->
+                    <div class="col-span-2 rounded-2xl overflow-hidden h-56 sm:h-72 lg:h-80 shadow-xl">
+                        <img src="assets/tt1.jpg" 
+                             alt="Chai being poured in a rustic setting" class="w-full h-full object-cover">
+                    </div>
+                    <!-- Bottom Left -->
+                    <div class="rounded-2xl overflow-hidden h-36 sm:h-44 lg:h-48 shadow-lg">
+                        <img src="assets/tt2.jpg" 
+                             alt="Chai cups" class="w-full h-full object-cover">
+                    </div>
+                    <!-- Bottom Right with Badge -->
+                    <div class="rounded-2xl overflow-hidden h-36 sm:h-44 lg:h-48 shadow-lg relative">
+                        <img src="assets/tt3.jpg" 
+                             alt="Spices for chai" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
+                            <span class="text-white text-xs font-semibold tracking-wider">+78 Articles</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Floating Card -->
+                <div class="absolute -bottom-4 -left-4 sm:-left-8 bg-[var(--card-bg)] border border-[var(--border-light)] rounded-2xl p-4 shadow-xl hidden sm:block">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-[var(--hover-bg)] flex items-center justify-center">
+                            <i class="fas fa-feather-alt text-[var(--accent-text)]"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs font-semibold" style="color: var(--text-primary);">Fresh This Week</p>
+                            <p class="text-[10px]" style="color: var(--text-secondary);">3 new articles</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ================= SECTION 2: LATEST ARTICLES — FEATURED POST + GRID ================= -->
+<section id="latest" class="py-20 md:py-28" style="background: var(--card-bg);">
+    <div class="max-w-7xl mx-auto px-5">
+        <!-- Section Header -->
+        <div class="text-center mb-14 md:mb-16">
+            <span class="text-xs font-semibold tracking-[0.2em] uppercase text-[var(--accent-text)] mb-3 block">Fresh Off the Press</span>
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-semibold mb-4" style="color: var(--text-primary); font-weight: 500 !important;">
+                Latest Articles
+            </h2>
+            <p class="text-base md:text-lg max-w-2xl mx-auto" style="color: var(--text-secondary);">
+                New stories, guides, and recipes published every week.
+            </p>
+        </div>
+
+        <!-- Featured Post + Side List Layout -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+            <!-- Featured Large Post -->
+            <article class="lg:col-span-2 group">
+                <a href="#" class="block">
+                    <div class="relative rounded-2xl overflow-hidden h-64 sm:h-80 lg:h-96 mb-6">
+                        <img src="assets/fg1.jpg" 
+                             alt="The Art of Kadak Chai" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                        <div class="absolute top-4 left-4">
+                            <span class="text-[10px] font-bold tracking-widest uppercase px-3 py-1.5 rounded-full text-white" style="background: var(--accent);">Featured</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3 mb-3 text-xs">
+                        <span class="font-semibold" style="color: var(--accent-text);">Brewing Guide</span>
+                        <span style="color: var(--text-secondary);">•</span>
+                        <span style="color: var(--text-secondary);">8 min read</span>
+                        <span style="color: var(--text-secondary);">•</span>
+                        <span style="color: var(--text-secondary);">Oct 12, 2026</span>
+                    </div>
+                    <h3 class="text-2xl sm:text-3xl lg:text-4xl font-semibold mb-3 group-hover:text-[var(--accent-text)] transition-colors" style="color: var(--text-primary); font-weight: 500 !important;">
+                        The Art of Kadak Chai: Why Stronger Is Better
+                    </h3>
+                    <p class="text-base leading-relaxed mb-4 max-w-3xl" style="color: var(--text-secondary);">
+                        Kadak means "strong" — and that's exactly the point. We break down the science, the spice ratios, 
+                        and the slow-simmer technique that gives our signature chai its bold, unforgettable character.
+                    </p>
+                    <div class="flex items-center gap-3">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=100&auto=format&fit=crop" 
+                             alt="Author" class="w-8 h-8 rounded-full object-cover">
+                        <span class="text-sm font-medium" style="color: var(--text-secondary);">By Priya Sharma</span>
+                    </div>
+                </a>
+            </article>
+
+            <!-- Side List of Recent Posts -->
+            <div class="lg:col-span-1">
+                <h3 class="text-sm font-semibold uppercase tracking-wider mb-5 pb-3 border-b border-[var(--border-light)]" style="color: var(--text-primary);">
+                    <i class="fas fa-fire text-[var(--accent-text)] mr-2"></i> Trending Now
+                </h3>
+                <div class="space-y-5">
+                    <!-- Side Post 1 -->
+                    <a href="#" class="group flex gap-4">
+                        <div class="w-20 h-20 rounded-xl overflow-hidden flex-shrink-0">
+                            <img src="https://images.unsplash.com/photo-1571934811356-5cc061b6821f?q=80&w=300&auto=format&fit=crop" 
+                                 alt="Post thumbnail" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-[10px] font-semibold uppercase tracking-wider mb-1" style="color: var(--accent-text);">Recipes</p>
+                            <h4 class="text-sm font-semibold leading-snug group-hover:text-[var(--accent-text)] transition-colors line-clamp-2" style="color: var(--text-primary);">
+                                5 Chai Variations to Try This Winter
+                            </h4>
+                            <p class="text-xs mt-1" style="color: var(--text-secondary);">Oct 10, 2026</p>
+                        </div>
+                    </a>
+
+                    <!-- Side Post 2 -->
+                    <a href="#" class="group flex gap-4">
+                        <div class="w-20 h-20 rounded-xl overflow-hidden flex-shrink-0">
+                            <img src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?q=80&w=300&auto=format&fit=crop" 
+                                 alt="Post thumbnail" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-[10px] font-semibold uppercase tracking-wider mb-1" style="color: var(--accent-text);">Culture</p>
+                            <h4 class="text-sm font-semibold leading-snug group-hover:text-[var(--accent-text)] transition-colors line-clamp-2" style="color: var(--text-primary);">
+                                The History of Chai: From Royal Courts to Street Corners
+                            </h4>
+                            <p class="text-xs mt-1" style="color: var(--text-secondary);">Oct 8, 2026</p>
+                        </div>
+                    </a>
+
+                    <!-- Side Post 3 -->
+                    <a href="#" class="group flex gap-4">
+                        <div class="w-20 h-20 rounded-xl overflow-hidden flex-shrink-0">
+                            <img src="https://images.unsplash.com/photo-1556679343-c7306c1976bc?q=80&w=300&auto=format&fit=crop" 
+                                 alt="Post thumbnail" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-[10px] font-semibold uppercase tracking-wider mb-1" style="color: var(--accent-text);">Wellness</p>
+                            <h4 class="text-sm font-semibold leading-snug group-hover:text-[var(--accent-text)] transition-colors line-clamp-2" style="color: var(--text-primary);">
+                                Tulsi, Ginger & Cardamom: The Health Benefits of Chai Spices
+                            </h4>
+                            <p class="text-xs mt-1" style="color: var(--text-secondary);">Oct 5, 2026</p>
+                        </div>
+                    </a>
+
+                    <!-- Side Post 4 -->
+                    <a href="#" class="group flex gap-4">
+                        <div class="w-20 h-20 rounded-xl overflow-hidden flex-shrink-0">
+                            <img src="https://images.unsplash.com/photo-1564890369478-c89ca6d9cde9?q=80&w=300&auto=format&fit=crop" 
+                                 alt="Post thumbnail" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-[10px] font-semibold uppercase tracking-wider mb-1" style="color: var(--accent-text);">Community</p>
+                            <h4 class="text-sm font-semibold leading-snug group-hover:text-[var(--accent-text)] transition-colors line-clamp-2" style="color: var(--text-primary);">
+                                Meet the Chaiwalas: The Hands Behind Your Cup
+                            </h4>
+                            <p class="text-xs mt-1" style="color: var(--text-secondary);">Oct 2, 2026</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ================= SECTION 3: EXPLORE BY CATEGORY ================= -->
+<section id="categories" class="py-20 md:py-28" style="background: var(--bg-body);">
+    <div class="max-w-7xl mx-auto px-5">
+        <!-- Section Header -->
+        <div class="text-center mb-14 md:mb-16">
+            <span class="text-xs font-semibold tracking-[0.2em] uppercase text-[var(--accent-text)] mb-3 block">Browse Topics</span>
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-semibold mb-4" style="color: var(--text-primary); font-weight: 500 !important;">
+                Explore by Category
+            </h2>
+            <p class="text-base md:text-lg max-w-2xl mx-auto" style="color: var(--text-secondary);">
+                From brewing techniques to cultural stories — find the content that speaks to you.
+            </p>
+        </div>
+
+        <!-- Category Cards Grid -->
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            <!-- Category 1 -->
+            <a href="#" class="rounded-2xl border border-[var(--border-light)] bg-[var(--card-bg)] p-5 text-center group hover:border-[var(--accent)] hover:-translate-y-1 transition-all duration-300">
+                <div class="w-14 h-14 mx-auto rounded-full bg-[var(--hover-bg)] flex items-center justify-center mb-4 group-hover:bg-[var(--accent)] transition-colors duration-300">
+                    <i class="fas fa-mortar-pestle text-[var(--accent-text)] text-xl group-hover:text-white transition-colors duration-300"></i>
+                </div>
+                <h3 class="text-sm font-semibold mb-1" style="color: var(--text-primary);">Brewing</h3>
+                <p class="text-xs" style="color: var(--text-secondary);">22 articles</p>
+            </a>
+
+            <!-- Category 2 -->
+            <a href="#" class="rounded-2xl border border-[var(--border-light)] bg-[var(--card-bg)] p-5 text-center group hover:border-[var(--accent)] hover:-translate-y-1 transition-all duration-300">
+                <div class="w-14 h-14 mx-auto rounded-full bg-[var(--hover-bg)] flex items-center justify-center mb-4 group-hover:bg-[var(--accent)] transition-colors duration-300">
+                    <i class="fas fa-utensils text-[var(--accent-text)] text-xl group-hover:text-white transition-colors duration-300"></i>
+                </div>
+                <h3 class="text-sm font-semibold mb-1" style="color: var(--text-primary);">Recipes</h3>
+                <p class="text-xs" style="color: var(--text-secondary);">18 articles</p>
+            </a>
+
+            <!-- Category 3 -->
+            <a href="#" class="rounded-2xl border border-[var(--border-light)] bg-[var(--card-bg)] p-5 text-center group hover:border-[var(--accent)] hover:-translate-y-1 transition-all duration-300">
+                <div class="w-14 h-14 mx-auto rounded-full bg-[var(--hover-bg)] flex items-center justify-center mb-4 group-hover:bg-[var(--accent)] transition-colors duration-300">
+                    <i class="fas fa-globe-asia text-[var(--accent-text)] text-xl group-hover:text-white transition-colors duration-300"></i>
+                </div>
+                <h3 class="text-sm font-semibold mb-1" style="color: var(--text-primary);">Culture</h3>
+                <p class="text-xs" style="color: var(--text-secondary);">14 articles</p>
+            </a>
+
+            <!-- Category 4 -->
+            <a href="#" class="rounded-2xl border border-[var(--border-light)] bg-[var(--card-bg)] p-5 text-center group hover:border-[var(--accent)] hover:-translate-y-1 transition-all duration-300">
+                <div class="w-14 h-14 mx-auto rounded-full bg-[var(--hover-bg)] flex items-center justify-center mb-4 group-hover:bg-[var(--accent)] transition-colors duration-300">
+                    <i class="fas fa-heartbeat text-[var(--accent-text)] text-xl group-hover:text-white transition-colors duration-300"></i>
+                </div>
+                <h3 class="text-sm font-semibold mb-1" style="color: var(--text-primary);">Wellness</h3>
+                <p class="text-xs" style="color: var(--text-secondary);">10 articles</p>
+            </a>
+
+            <!-- Category 5 -->
+            <a href="#" class="rounded-2xl border border-[var(--border-light)] bg-[var(--card-bg)] p-5 text-center group hover:border-[var(--accent)] hover:-translate-y-1 transition-all duration-300">
+                <div class="w-14 h-14 mx-auto rounded-full bg-[var(--hover-bg)] flex items-center justify-center mb-4 group-hover:bg-[var(--accent)] transition-colors duration-300">
+                    <i class="fas fa-users text-[var(--accent-text)] text-xl group-hover:text-white transition-colors duration-300"></i>
+                </div>
+                <h3 class="text-sm font-semibold mb-1" style="color: var(--text-primary);">Community</h3>
+                <p class="text-xs" style="color: var(--text-secondary);">9 articles</p>
+            </a>
+
+            <!-- Category 6 -->
+            <a href="#" class="rounded-2xl border border-[var(--border-light)] bg-[var(--card-bg)] p-5 text-center group hover:border-[var(--accent)] hover:-translate-y-1 transition-all duration-300">
+                <div class="w-14 h-14 mx-auto rounded-full bg-[var(--hover-bg)] flex items-center justify-center mb-4 group-hover:bg-[var(--accent)] transition-colors duration-300">
+                    <i class="fas fa-store text-[var(--accent-text)] text-xl group-hover:text-white transition-colors duration-300"></i>
+                </div>
+                <h3 class="text-sm font-semibold mb-1" style="color: var(--text-primary);">Stall Stories</h3>
+                <p class="text-xs" style="color: var(--text-secondary);">7 articles</p>
+            </a>
+        </div>
+    </div>
+</section>
+
+
+<!-- ================= SECTION 4: POPULAR THIS MONTH — ARTICLE GRID ================= -->
+<section class="py-20 md:py-28" style="background: var(--card-bg);">
+    <div class="max-w-7xl mx-auto px-5">
+        <!-- Section Header -->
+        <div class="text-center mb-14 md:mb-16">
+            <span class="text-xs font-semibold tracking-[0.2em] uppercase text-[var(--accent-text)] mb-3 block">Reader Favorites</span>
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-semibold mb-4" style="color: var(--text-primary); font-weight: 500 !important;">
+                Popular This Month
+            </h2>
+            <p class="text-base md:text-lg max-w-2xl mx-auto" style="color: var(--text-secondary);">
+                The articles our readers can't stop sharing, saving, and talking about.
+            </p>
+        </div>
+
+        <!-- Article Cards Grid — 3 Columns -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Article 1 -->
+            <article class="rounded-2xl border border-[var(--border-light)] bg-[var(--bg-body)] overflow-hidden group flex flex-col">
+                <a href="#" class="block">
+                    <div class="h-52 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1561336313-0bd5e0b27ec8?q=80&w=600&auto=format&fit=crop" 
+                             alt="Masala chai recipe" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <span class="absolute top-3 left-3 text-[10px] font-bold tracking-widest uppercase px-2.5 py-1 rounded-full bg-[var(--card-bg)]" style="color: var(--accent-text);">Recipes</span>
+                    </div>
+                </a>
+                <div class="p-5 flex flex-col flex-1">
+                    <div class="flex items-center gap-2 mb-2 text-xs">
+                        <span style="color: var(--text-secondary);">Oct 11, 2026</span>
+                        <span style="color: var(--text-secondary);">•</span>
+                        <span style="color: var(--text-secondary);">6 min read</span>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2 group-hover:text-[var(--accent-text)] transition-colors" style="color: var(--text-primary);">
+                        <a href="#">The Perfect Masala Chai Ratio (Finally Explained)</a>
+                    </h3>
+                    <p class="text-sm leading-relaxed mb-4 flex-1" style="color: var(--text-secondary);">
+                        Stop guessing. Here's the exact spice-to-tea-to-milk ratio our chaiwalas use every day.
+                    </p>
+                    <div class="flex items-center gap-3 pt-4 border-t border-[var(--border-light)]">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100&auto=format&fit=crop" 
+                             alt="Author" class="w-7 h-7 rounded-full object-cover">
+                        <span class="text-xs font-medium" style="color: var(--text-secondary);">Rahul Mehta</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Article 2 -->
+            <article class="rounded-2xl border border-[var(--border-light)] bg-[var(--bg-body)] overflow-hidden group flex flex-col">
+                <a href="#" class="block">
+                    <div class="h-52 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1571934811356-5cc061b6821f?q=80&w=600&auto=format&fit=crop" 
+                             alt="Clay cup tradition" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <span class="absolute top-3 left-3 text-[10px] font-bold tracking-widest uppercase px-2.5 py-1 rounded-full bg-[var(--card-bg)]" style="color: var(--accent-text);">Culture</span>
+                    </div>
+                </a>
+                <div class="p-5 flex flex-col flex-1">
+                    <div class="flex items-center gap-2 mb-2 text-xs">
+                        <span style="color: var(--text-secondary);">Oct 9, 2026</span>
+                        <span style="color: var(--text-secondary);">•</span>
+                        <span style="color: var(--text-secondary);">5 min read</span>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2 group-hover:text-[var(--accent-text)] transition-colors" style="color: var(--text-primary);">
+                        <a href="#">Why Chai Tastes Better in a Clay Kulhad</a>
+                    </h3>
+                    <p class="text-sm leading-relaxed mb-4 flex-1" style="color: var(--text-secondary);">
+                        The science and tradition behind India's favorite disposable cup — and why we still use it.
+                    </p>
+                    <div class="flex items-center gap-3 pt-4 border-t border-[var(--border-light)]">
+                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=100&auto=format&fit=crop" 
+                             alt="Author" class="w-7 h-7 rounded-full object-cover">
+                        <span class="text-xs font-medium" style="color: var(--text-secondary);">Ananya Patel</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Article 3 -->
+            <article class="rounded-2xl border border-[var(--border-light)] bg-[var(--bg-body)] overflow-hidden group flex flex-col">
+                <a href="#" class="block">
+                    <div class="h-52 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?q=80&w=600&auto=format&fit=crop" 
+                             alt="Chai spices benefits" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <span class="absolute top-3 left-3 text-[10px] font-bold tracking-widest uppercase px-2.5 py-1 rounded-full bg-[var(--card-bg)]" style="color: var(--accent-text);">Wellness</span>
+                    </div>
+                </a>
+                <div class="p-5 flex flex-col flex-1">
+                    <div class="flex items-center gap-2 mb-2 text-xs">
+                        <span style="color: var(--text-secondary);">Oct 7, 2026</span>
+                        <span style="color: var(--text-secondary);">•</span>
+                        <span style="color: var(--text-secondary);">7 min read</span>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2 group-hover:text-[var(--accent-text)] transition-colors" style="color: var(--text-primary);">
+                        <a href="#">What's Actually in Your Chai? A Spice-by-Spice Guide</a>
+                    </h3>
+                    <p class="text-sm leading-relaxed mb-4 flex-1" style="color: var(--text-secondary);">
+                        Ginger, cardamom, cloves, cinnamon — we break down what each spice does for flavor and health.
+                    </p>
+                    <div class="flex items-center gap-3 pt-4 border-t border-[var(--border-light)]">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=100&auto=format&fit=crop" 
+                             alt="Author" class="w-7 h-7 rounded-full object-cover">
+                        <span class="text-xs font-medium" style="color: var(--text-secondary);">Priya Sharma</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Article 4 -->
+            <article class="rounded-2xl border border-[var(--border-light)] bg-[var(--bg-body)] overflow-hidden group flex flex-col">
+                <a href="#" class="block">
+                    <div class="h-52 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1556679343-c7306c1976bc?q=80&w=600&auto=format&fit=crop" 
+                             alt="Cold brew chai" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <span class="absolute top-3 left-3 text-[10px] font-bold tracking-widest uppercase px-2.5 py-1 rounded-full bg-[var(--card-bg)]" style="color: var(--accent-text);">Brewing</span>
+                    </div>
+                </a>
+                <div class="p-5 flex flex-col flex-1">
+                    <div class="flex items-center gap-2 mb-2 text-xs">
+                        <span style="color: var(--text-secondary);">Oct 4, 2026</span>
+                        <span style="color: var(--text-secondary);">•</span>
+                        <span style="color: var(--text-secondary);">4 min read</span>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2 group-hover:text-[var(--accent-text)] transition-colors" style="color: var(--text-primary);">
+                        <a href="#">Cold Brew Chai: The Overnight Method Worth Waiting For</a>
+                    </h3>
+                    <p class="text-sm leading-relaxed mb-4 flex-1" style="color: var(--text-secondary);">
+                        How we steep our chai for 12 hours to create a smoother, stronger cold brew.
+                    </p>
+                    <div class="flex items-center gap-3 pt-4 border-t border-[var(--border-light)]">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100&auto=format&fit=crop" 
+                             alt="Author" class="w-7 h-7 rounded-full object-cover">
+                        <span class="text-xs font-medium" style="color: var(--text-secondary);">Rahul Mehta</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Article 5 -->
+            <article class="rounded-2xl border border-[var(--border-light)] bg-[var(--bg-body)] overflow-hidden group flex flex-col">
+                <a href="#" class="block">
+                    <div class="h-52 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1564890369478-c89ca6d9cde9?q=80&w=600&auto=format&fit=crop" 
+                             alt="Chai and snacks pairing" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <span class="absolute top-3 left-3 text-[10px] font-bold tracking-widest uppercase px-2.5 py-1 rounded-full bg-[var(--card-bg)]" style="color: var(--accent-text);">Recipes</span>
+                    </div>
+                </a>
+                <div class="p-5 flex flex-col flex-1">
+                    <div class="flex items-center gap-2 mb-2 text-xs">
+                        <span style="color: var(--text-secondary);">Oct 1, 2026</span>
+                        <span style="color: var(--text-secondary);">•</span>
+                        <span style="color: var(--text-secondary);">5 min read</span>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2 group-hover:text-[var(--accent-text)] transition-colors" style="color: var(--text-primary);">
+                        <a href="#">5 Snacks That Pair Perfectly with Every Type of Chai</a>
+                    </h3>
+                    <p class="text-sm leading-relaxed mb-4 flex-1" style="color: var(--text-secondary);">
+                        From samosa with kadak chai to croissants with elaichi — a pairing guide for every mood.
+                    </p>
+                    <div class="flex items-center gap-3 pt-4 border-t border-[var(--border-light)]">
+                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=100&auto=format&fit=crop" 
+                             alt="Author" class="w-7 h-7 rounded-full object-cover">
+                        <span class="text-xs font-medium" style="color: var(--text-secondary);">Ananya Patel</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Article 6 -->
+            <article class="rounded-2xl border border-[var(--border-light)] bg-[var(--bg-body)] overflow-hidden group flex flex-col">
+                <a href="#" class="block">
+                    <div class="h-52 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?q=80&w=600&auto=format&fit=crop" 
+                             alt="Chai House community" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <span class="absolute top-3 left-3 text-[10px] font-bold tracking-widest uppercase px-2.5 py-1 rounded-full bg-[var(--card-bg)]" style="color: var(--accent-text);">Community</span>
+                    </div>
+                </a>
+                <div class="p-5 flex flex-col flex-1">
+                    <div class="flex items-center gap-2 mb-2 text-xs">
+                        <span style="color: var(--text-secondary);">Sep 28, 2026</span>
+                        <span style="color: var(--text-secondary);">•</span>
+                        <span style="color: var(--text-secondary);">6 min read</span>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2 group-hover:text-[var(--accent-text)] transition-colors" style="color: var(--text-primary);">
+                        <a href="#">Meet the Regulars: The People Who Make Chai House Home</a>
+                    </h3>
+                    <p class="text-sm leading-relaxed mb-4 flex-1" style="color: var(--text-secondary);">
+                        Every morning, the same faces. We sat down with five of our regulars to hear their stories.
+                    </p>
+                    <div class="flex items-center gap-3 pt-4 border-t border-[var(--border-light)]">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=100&auto=format&fit=crop" 
+                             alt="Author" class="w-7 h-7 rounded-full object-cover">
+                        <span class="text-xs font-medium" style="color: var(--text-secondary);">Priya Sharma</span>
+                    </div>
+                </div>
+            </article>
+        </div>
+
+        <!-- Load More -->
+        <div class="text-center mt-12">
+            <a href="#" class="btn-outline inline-flex items-center px-8 py-3.5 text-base font-semibold">
+                <i class="fas fa-plus mr-2"></i> Load More Articles
+            </a>
+        </div>
+    </div>
+</section>
+
+
+<!-- ================= SECTION 5: NEWSLETTER / SUBSCRIBE STRIP ================= -->
+<section class="py-20 md:py-28" style="background: var(--bg-body);">
+    <div class="max-w-7xl mx-auto px-5">
+        <div class="rounded-3xl border border-[var(--border-light)] bg-[var(--card-bg)] overflow-hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-2">
+                <!-- Left: Image -->
+                <div class="relative h-64 sm:h-80 lg:h-auto min-h-[300px]">
+                    <img src="https://images.unsplash.com/photo-1597318181409-cf64d0b5d8a2?q=80&w=800&auto=format&fit=crop" 
+                         alt="Chai and notebook" class="absolute inset-0 w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent lg:bg-gradient-to-r"></div>
+                </div>
+                <!-- Right: Content -->
+                <div class="p-8 md:p-12 lg:p-14">
+                    <div class="w-12 h-12 rounded-xl bg-[var(--hover-bg)] flex items-center justify-center mb-5">
+                        <i class="fas fa-envelope-open-text text-[var(--accent-text)] text-xl"></i>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-semibold mb-4" style="color: var(--text-primary); font-weight: 500 !important;">
+                        The Chai Journal, Delivered
+                    </h2>
+                    <p class="text-base leading-relaxed mb-8" style="color: var(--text-secondary);">
+                        Get our newest articles, brewing tips, and exclusive recipes sent straight to your inbox. 
+                        One email a week. No spam, just chai.
+                    </p>
+
+                    <!-- Newsletter Form -->
+                    <form class="space-y-3" onsubmit="event.preventDefault(); alert('Subscribed! Check your inbox for a welcome chai recipe.');">
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <input type="email" placeholder="Your email address" required 
+                                   class="flex-1 px-5 py-3.5 rounded-full text-sm border border-[var(--border-light)] focus:outline-none focus:border-[var(--accent)] transition-colors"
+                                   style="background: var(--bg-body); color: var(--text-primary);">
+                            <button type="submit" class="btn-primary px-6 py-3.5 text-sm font-semibold whitespace-nowrap">
+                                <i class="fas fa-paper-plane mr-2"></i> Subscribe
+                            </button>
+                        </div>
+                        <p class="text-xs" style="color: var(--text-secondary);">
+                            Join 3,200+ readers. Unsubscribe anytime.
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ================= SECTION 6: FINAL CTA — BREW YOUR STORY ================= -->
+<section class="relative py-24 md:py-32 overflow-hidden">
+    <!-- Background Image -->
+    <div class="absolute inset-0 z-0">
+        <img src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?q=80&w=2070&auto=format&fit=crop" 
+             alt="Chai stall with steam" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-black/75 to-black/60"></div>
+    </div>
+
+    <!-- CTA Content -->
+    <div class="relative z-10 max-w-4xl mx-auto px-5 text-center">
+        <div class="w-16 h-16 rounded-full bg-[var(--accent)] flex items-center justify-center mx-auto mb-6">
+            <i class="fas fa-feather-alt text-white text-2xl"></i>
+        </div>
+
+        <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-white mb-6 leading-tight" style="font-weight: 600 !important;">
+            Every Cup Has<br>
+            <span class="text-[var(--accent)]">A Story to Tell.</span>
+        </h2>
+        <p class="text-base sm:text-lg md:text-xl text-white/80 max-w-2xl mx-auto mb-10 leading-relaxed">
+            Reading about chai is one thing. Tasting it is another. Visit us, order a cup, and write your own story. 
+            Your first chai comes with a free side of conversation.
+        </p>
+
+        <!-- CTA Buttons -->
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
+            <a href="menu.html" class="btn-primary px-10 py-4 text-base font-semibold w-full sm:w-auto">
+                <i class="fas fa-mug-hot mr-2"></i> Explore Menu
+            </a>
+            <a href="contact.html" class="btn-outline px-10 py-4 text-base font-semibold w-full sm:w-auto border-white/40 text-white hover:bg-white/10 hover:border-white">
+                <i class="fas fa-map-marker-alt mr-2"></i> Visit the Stall
+            </a>
+        </div>
+
+        <!-- Contact Strip -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto">
+            <div class="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4">
+                <i class="fas fa-clock text-[var(--accent)] mb-2 text-lg"></i>
+                <p class="text-white text-sm font-semibold">7am – 9pm</p>
+                <p class="text-white/60 text-xs">Open Daily</p>
+            </div>
+            <div class="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4">
+                <i class="fas fa-newspaper text-[var(--accent)] mb-2 text-lg"></i>
+                <p class="text-white text-sm font-semibold">Weekly Posts</p>
+                <p class="text-white/60 text-xs">Every Wednesday</p>
+            </div>
+            <div class="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4">
+                <i class="fas fa-envelope text-[var(--accent)] mb-2 text-lg"></i>
+                <p class="text-white text-sm font-semibold">blog@chaihouse.com</p>
+                <p class="text-white/60 text-xs">Submit a story</p>
+            </div>
+        </div>
+    </div>
+</section>
+</main>
+
+    <!-- Footer -->
+        <footer class="pt-16 pb-8 border-t border-slate-800"
+        style="background: var(--footer-bg); color: var(--footer-text);">
+        <div class="max-w-7xl mx-auto px-5 grid grid-cols-2 md:grid-cols-6 lg:grid-cols-5 gap-8">
+            <div class="col-span-2 md:col-span-6 lg:col-span-1">
+                  <a href="index.html" class="text-2xl font-bold tracking-tight text-accent flex items-center gap-2" style="font-weight: 700 !important;"><i class="fa-solid fa-mug-hot"></i> Chai House</a>
+                <p class="text-xs text-slate-400 mt-3 leading-relaxed">
+                    Cozy, aromatic tea house offering signature chai blends, specialty teas, and a warm atmosphere. Come sip and savor!
+                </p>
+                <div class="mt-4 space-y-2 text-xs text-slate-300">
+                    <p class="flex items-center gap-2"><i class="fas fa-phone text-accent"></i> (800) 555-CHAI</p>
+                    <p class="flex items-center gap-2"><i class="far fa-clock text-accent"></i> Mon-Sun, 7am-9pm</p>
+                </div>
+                <div class="flex gap-2.5 mt-5">
+                    <a href="#" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-accent flex items-center justify-center transition-all duration-300 text-white"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-accent flex items-center justify-center transition-all duration-300 text-white"><i class="fab fa-facebook-f text-sm"></i></a>
+                    <a href="#" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-accent flex items-center justify-center transition-all duration-300 text-white"><i class="fab fa-x-twitter"></i></a>
+                    <a href="#" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-accent flex items-center justify-center transition-all duration-300 text-white"><i class="fab fa-linkedin-in text-sm"></i></a>
+                </div>
+            </div>
+            <div class="col-span-1 md:col-span-2 lg:col-span-1"> <h4 class="font-medium text-sm tracking-wider uppercase text-white mb-4">Menu</h4>
+                <ul class="text-xs space-y-2.5 text-slate-400">
+                    <li><a href="menu.html" class="hover:text-accent hover:translate-x-1 inline-block transition-all duration-200">Signature Chai</a></li>
+                    <li><a href="menu.html" class="hover:text-accent hover:translate-x-1 inline-block transition-all duration-200">Specialty Teas</a></li>
+                    <li><a href="menu.html" class="hover:text-accent hover:translate-x-1 inline-block transition-all duration-200">Iced Beverages</a></li>
+                    <li><a href="menu.html" class="hover:text-accent hover:translate-x-1 inline-block transition-all duration-200">Snacks & Pastries</a></li>
+                    <li><a href="menu.html" class="hover:text-accent hover:translate-x-1 inline-block transition-all duration-200">Vegan Options</a></li>
+                </ul>
+            </div>
+            <div class="col-span-1 md:col-span-2 lg:col-span-1"> <h4 class="font-medium text-sm tracking-wider uppercase text-white mb-4">Support</h4>
+                <ul class="text-xs space-y-2.5 text-slate-400">
+                    <li><a href="contact.html" class="hover:text-accent hover:translate-x-1 inline-block transition-all duration-200">Find Us</a></li>
+                    <li><a href="loyalty.html" class="hover:text-accent hover:translate-x-1 inline-block transition-all duration-200">Loyalty Program</a></li>
+                    <li><a href="about.html" class="hover:text-accent hover:translate-x-1 inline-block transition-all duration-200">Catering</a></li>
+                    <li><a href="about.html" class="hover:text-accent hover:translate-x-1 inline-block transition-all duration-200">Gift Cards</a></li>
+                    <li><a href="contact.html" class="hover:text-accent hover:translate-x-1 inline-block transition-all duration-200">Customer FAQ</a></li>
+                </ul>
+            </div>
+            <div class="col-span-1 md:col-span-2 lg:col-span-1"> <h4 class="font-medium text-sm tracking-wider uppercase text-white mb-4">Company</h4>
+                <ul class="text-xs space-y-2.5 text-slate-400">
+                    <li><a href="menu.html" class="hover:text-accent hover:translate-x-1 inline-block transition-all duration-200">Our Story</a></li>
+                    <li><a href="about.html" class="hover:text-accent hover:translate-x-1 inline-block transition-all duration-200">About Chai House</a></li>
+                    <li><a href="contact.html" class="hover:text-accent hover:translate-x-1 inline-block transition-all duration-200">Careers</a></li>
+                    <li><a href="about.html" class="hover:text-accent hover:translate-x-1 inline-block transition-all duration-200">Blog</a></li>
+                    <li><a href="contact.html" class="hover:text-accent hover:translate-x-1 inline-block transition-all duration-200">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="col-span-2 md:col-span-6 lg:col-span-1"> <h4 class="font-medium text-sm tracking-wider uppercase text-white mb-4">Stay Connected</h4>
+                <p class="text-xs text-slate-400 mb-3 leading-relaxed">
+                    Subscribe for updates, exclusive offers, and the latest tea blends.
+                </p>
+                <form class="flex gap-2" onsubmit="event.preventDefault(); alert('Subscribed successfully!');">
+                    <input type="email" placeholder="Your email address" required class="bg-slate-800 border border-slate-700 text-white text-xs rounded-lg px-3 py-2 w-full focus:outline-none focus:border-accent transition-colors">
+                    <button type="submit" class="bg-accent text-white px-3 py-2 rounded-lg text-xs font-medium hover:opacity-90 transition-opacity"><i class="fas fa-paper-plane"></i></button>
+                </form>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-5 mt-12 pt-6 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-400">
+            <p>&copy; 2026 Chai House. Savor the moment. All rights reserved.</p>
+            <div class="flex gap-6">
+                <a href="contact.html" class="hover:text-accent transition-colors">Privacy Policy</a>
+                <a href="contact.html" class="hover:text-accent transition-colors">Terms of Service</a>
+                <a href="contact.html" class="hover:text-accent transition-colors">Cookie Settings</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        (function () {
+            const html = document.documentElement;
+            // Theme toggles
+            const themeBtn = document.getElementById('theme-toggle'), mobileTheme = document.getElementById('mobile-theme-btn');
+            const applyTheme = (theme) => { html.setAttribute('data-theme', theme); localStorage.setItem('theme', theme); document.querySelectorAll('.light-icon').forEach(icon => icon.classList.toggle('hidden', theme === 'dark')); document.querySelectorAll('.dark-icon').forEach(icon => icon.classList.toggle('hidden', theme === 'light')); };
+            const initTheme = () => { const stored = localStorage.getItem('theme'); const prefers = window.matchMedia('(prefers-color-scheme: dark)').matches; applyTheme(stored === 'dark' || (!stored && prefers) ? 'dark' : 'light'); };
+            const toggleTheme = () => { const cur = html.getAttribute('data-theme'); applyTheme(cur === 'light' ? 'dark' : 'light'); };
+            themeBtn?.addEventListener('click', toggleTheme); if (mobileTheme) mobileTheme.addEventListener('click', toggleTheme);
+            initTheme();
+            // RTL
+            const langBtn = document.getElementById('lang-icon'), mobileRtl = document.getElementById('mobile-rtl-btn');
+            const toggleRtl = () => { const isRtl = html.getAttribute('dir') === 'rtl'; html.setAttribute('dir', isRtl ? 'ltr' : 'rtl'); localStorage.setItem('dir', isRtl ? 'ltr' : 'rtl'); };
+            if (langBtn) langBtn.addEventListener('click', toggleRtl);
+            if (mobileRtl) mobileRtl.addEventListener('click', toggleRtl);
+            const savedDir = localStorage.getItem('dir') === 'rtl' ? 'rtl' : 'ltr'; html.setAttribute('dir', savedDir);
+            // dropdowns desktop
+            document.querySelectorAll('.dropdown-wrapper').forEach(drop => {
+                const btn = drop.querySelector('.dropdown-toggle');
+                if (window.innerWidth >= 1280) {
+                    drop.addEventListener('mouseenter', () => drop.classList.add('open'));
+                    drop.addEventListener('mouseleave', () => drop.classList.remove('open'));
+                } else {
+                    btn?.addEventListener('click', (e) => { e.preventDefault(); drop.classList.toggle('open'); });
+                }
+            });
+            document.addEventListener('click', (e) => { if (!e.target.closest('.dropdown-wrapper')) document.querySelectorAll('.dropdown-wrapper').forEach(d => d.classList.remove('open')); });
+            // Mobile drawer
+            const drawer = document.getElementById('mobile-drawer'), backdrop = document.getElementById('drawer-backdrop'), panel = document.getElementById('drawer-panel'), openBtn = document.getElementById('drawer-toggle'), closeBtn = document.getElementById('drawer-close');
+            const openDrawer = () => { drawer.classList.remove('pointer-events-none'); panel.classList.remove('-translate-x-full'); backdrop.classList.add('opacity-100', 'pointer-events-auto'); document.body.style.overflow = 'hidden'; };
+            const closeDrawer = () => { panel.classList.add('-translate-x-full'); backdrop.classList.remove('opacity-100', 'pointer-events-auto'); setTimeout(() => drawer.classList.add('pointer-events-none'), 300); document.body.style.overflow = ''; };
+            openBtn?.addEventListener('click', openDrawer); closeBtn?.addEventListener('click', closeDrawer); backdrop?.addEventListener('click', closeDrawer);
+            document.getElementById('mobile-home-toggle')?.addEventListener('click', () => { document.getElementById('mobile-home-submenu')?.classList.toggle('hidden'); });
+            document.getElementById('mobile-dashboard-toggle')?.addEventListener('click', () => { document.getElementById('mobile-dashboard-submenu')?.classList.toggle('hidden'); });
+            // reveal animation
+            const reveals = document.querySelectorAll('.reveal');
+            const observer = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('active'); }); }, { threshold: 0.15 });
+            reveals.forEach(r => observer.observe(r));
+            // Add active nav based on hash
+            const navLinks = document.querySelectorAll('.nav-link, .dropdown-menu a, #mobile-drawer a');
+            navLinks.forEach(link => { link.addEventListener('click', function (e) { if (this.getAttribute('href')?.startsWith('#')) e.preventDefault(); window.location.hash = this.getAttribute('href')?.slice(1) || ''; }); });
+
+            // Dynamic Active Page Highlighter (Desktop & Mobile)
+            const currentPath = window.location.pathname;
+            let currentPage = currentPath.substring(currentPath.lastIndexOf('/') + 1);
+            if (!currentPage || currentPage === '/') currentPage = 'index.html';
+
+            // 1. Clean slate: clear all hardcoded active classes
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+            document.querySelectorAll('.dropdown-toggle').forEach(link => link.classList.remove('active'));
+            document.querySelectorAll('.dropdown-menu a').forEach(link => link.classList.remove('text-accent', 'font-medium'));
+            
+            const mobileDrawer = document.getElementById('mobile-drawer');
+            if (mobileDrawer) {
+                mobileDrawer.querySelectorAll('a').forEach(link => {
+                    link.classList.remove('active', 'text-accent', 'font-medium');
+                });
+                mobileDrawer.querySelectorAll('button').forEach(btn => {
+                    btn.classList.remove('text-accent');
+                });
+                // Reset submenus to hidden
+                const dbSub = document.getElementById('mobile-dashboard-submenu');
+                if (dbSub) dbSub.classList.add('hidden');
+                const homeSub = document.getElementById('mobile-home-submenu');
+                if (homeSub) homeSub.classList.add('hidden');
+            }
+
+            // 2. Desktop Highlighting
+            let desktopMatched = false;
+            document.querySelectorAll('.dropdown-menu a').forEach(link => {
+                const href = link.getAttribute('href');
+                if (href === currentPage) {
+                    link.classList.add('text-accent', 'font-medium');
+                    const wrapper = link.closest('.dropdown-wrapper');
+                    if (wrapper) {
+                        const toggle = wrapper.querySelector('.dropdown-toggle');
+                        if (toggle) toggle.classList.add('active');
+                    }
+                    desktopMatched = true;
+                }
+            });
+
+            if (!desktopMatched) {
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    const wrapper = link.closest('.dropdown-wrapper');
+                    if (!wrapper) {
+                        const href = link.getAttribute('href');
+                        if (href === currentPage) {
+                            link.classList.add('active');
+                        }
+                    }
+                });
+            }
+
+            // 3. Mobile Highlighting
+            if (mobileDrawer) {
+                let mobileMatched = false;
+                mobileDrawer.querySelectorAll('a').forEach(link => {
+                    const href = link.getAttribute('href');
+                    if (href === currentPage) {
+                        link.classList.add('active');
+                        if (!link.classList.contains('rounded-full')) {
+                            link.classList.add('text-accent', 'font-medium');
+                        }
+                        
+                        // Handle parents/submenus
+                        const homeSubmenu = document.getElementById('mobile-home-submenu');
+                        const dashboardSubmenu = document.getElementById('mobile-dashboard-submenu');
+                        
+                        if (homeSubmenu && homeSubmenu.contains(link)) {
+                            const homeToggle = document.getElementById('mobile-home-toggle');
+                            if (homeToggle) homeToggle.classList.add('text-accent');
+                            homeSubmenu.classList.remove('hidden');
+                        } else if (dashboardSubmenu && dashboardSubmenu.contains(link)) {
+                            const dashboardToggle = document.getElementById('mobile-dashboard-toggle');
+                            if (dashboardToggle) dashboardToggle.classList.add('text-accent');
+                            dashboardSubmenu.classList.remove('hidden');
+                        }
+                        mobileMatched = true;
+                    }
+                });
+
+                // Fallback for index.html / home2.html / empty path
+                if (!mobileMatched && (currentPage === 'index.html' || currentPage === 'home2.html')) {
+                    const homeToggle = document.getElementById('mobile-home-toggle');
+                    if (homeToggle) homeToggle.classList.add('text-accent');
+                    const homeSubmenu = document.getElementById('mobile-home-submenu');
+                    if (homeSubmenu) homeSubmenu.classList.remove('hidden');
+                    
+                    const matchingLink = mobileDrawer.querySelector(`a[href="${currentPage}"]`);
+                    if (matchingLink) {
+                        matchingLink.classList.add('active', 'text-accent', 'font-medium');
+                    }
+                }
+            }
+        })();
+    </script>
+    <!-- home2.html redirect simulation: if path includes home2.html, just update theme but fully functional -->
+    <script>
+        // MOCK support for home2 version
+        if (window.location.pathname.includes('home2.html')) { document.title = "Chai House | Premium Edition"; }
+    </script>
+    <!-- Floating Call Button -->
+    <a href="tel:8005557655" class="fixed bottom-6 right-6 bg-accent text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl z-[90] hover:bg-accent-dark transition-transform hover:scale-110 flex md:hidden" style="box-shadow: 0 4px 14px rgba(139, 92, 246, 0.5);">
+        <i class="fas fa-phone text-2xl"></i>
+    </a>
+</body>
+
+</html>
+
+
+
+

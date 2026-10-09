@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-theme="light">
+
+<head>
+    <link rel="icon" type="image/png" href="assets/fav.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Tea House & Specialty Chai Stall</title>
+    <!-- Tailwind + FontAwesome -->
+    <script src="tailwind.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <style>
+        /* ========== THEME VARIABLES (performance/vintage-modern) ========== */
+        :root,
+        html[data-theme='light'] {
+            --bg-body: #FAF4E8;
+            --text-primary: #3E2723;
+            --text-secondary: #5D4037;
+            --accent: #D84315;
+            --accent-text: #BF360C;
+            --accent-dark: #A62A08;
+            --primary: #4E342E;
+            --card-bg: #FFFFFF;
+            --border-light: #EFEBE9;
+            --hover-bg: #FBE9E7;
+            --footer-bg: #211512;
+            --footer-text: #D7CCC8;
+            --rating-star: #FFB300;
+        }
+
+        html[data-theme='dark'] {
+            --bg-body: #1E120D;
+            --text-primary: #EFEBE9;
+            --text-secondary: #BCAAA4;
+            --accent: #FF7043;
+            --accent-text: #FF8A65;
+            --accent-dark: #F4511E;
+            --primary: #8D6E63;
+            --card-bg: #2D1C15;
+            --border-light: #4E342E;
+            --hover-bg: #3E2723;
+            --footer-bg: #110906;
+            --footer-text: #D7CCC8;
+            --rating-star: #FFCA28;
+        }
+
+        body {
+            background: var(--bg-body);
+            color: var(--text-primary);
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            transition: background-color 0.25s ease, color 0.2s;
+            overflow-x: hidden;
+        }
+
+        .text-accent {
+            color: var(--accent-text);
+        }
+
+        .bg-accent {
+            background-color: var(--accent);
+        }
+
+        .border-accent {
+            border-color: var(--accent-text);
+        }
+
+        .hover\:bg-accent\/10:hover {
+            background-color: color-mix(in srgb, var(--accent) 10%, transparent);
+        }
+
+        .bg-card {
+            background-color: var(--card-bg);
+        }
+
+        .text-secondary {
+            color: var(--text-secondary);
+        }
+
+        .border-border {
+            border-color: var(--border-light);
+        }
+
+        /* Navbar + glassmorphic */
+        #main-header nav {
+            background: var(--card-bg);
+            backdrop-filter: blur(0px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+        }
+
+        html[data-theme='dark'] #main-header nav {
+            background: rgba(30, 41, 59, 0.95);
+            backdrop-filter: blur(4px);
+        }
+
+        .nav-link {
+            position: relative;
+            transition: 0.2s;
+            font-weight: 500;
+        }
+
+        .nav-link.active {
+            color: var(--accent);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -6px;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: 0.2s;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Dropdown style */
+        .dropdown-wrapper {
+            position: relative;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 110%;
+            left: 0;
+            background: var(--card-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 0.75rem;
+            min-width: 190px;
+            padding: 0.4rem;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-8px);
+            transition: all 0.2s ease-in-out;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            z-index: 100;
+            overflow: hidden;
+        }
+
+        .dropdown-wrapper.open .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu a {
+            display: flex;
+            align-items: center;
+            padding: 0.6rem 1rem;
+            color: var(--text-primary);
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .dropdown-menu a:hover {
+            background: var(--hover-bg);
+            color: var(--accent);
+            transform: translateX(4px);
+        }
+
+        /* Tire comparison cards */
+        .tire-card {
+            transition: all 0.2s;
+            background: var(--card-bg);
+            border-radius: 1.5rem;
+            border: 1px solid var(--border-light);
+            overflow: hidden;
+        }
+
+        .tire-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-primary { white-space: nowrap;
+            background: var(--accent);
+            color: white;
+            border-radius: 9999px;
+            transition: 0.2s;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-dark);
+            transform: scale(1.02);
+        }
+
+        .btn-outline { white-space: nowrap;
+            border: 1.5px solid var(--accent-text);
+            color: var(--accent-text);
+            border-radius: 9999px;
+            background: transparent;
+            transition: 0.2s;
+        }
+
+        .btn-outline:hover {
+            background: var(--accent);
+            color: white;
+        }
+
+        .rating-star {
+            color: var(--rating-star);
+        }
+
+                .status-badge {
+            background: var(--accent);
+            color: #ffffff;
+            border-radius: 999px;
+            padding: 0.3rem 0.8rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            box-shadow: 0 2px 10px rgba(139, 92, 246, 0.3);
+        }
+
+        .vehicle-track {
+            background: var(--card-bg);
+            border-left: 4px solid var(--accent);
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: 0.7s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        button:focus,
+        .dropdown-toggle:focus {
+            outline: none;
+            box-shadow: none;
+        }
+
+        .dropdown-toggle {
+            -webkit-appearance: none;
+            appearance: none;
+            border: none;
+            background: transparent;
+        }
+
+        @media (max-width: 1279px) {
+            .dropdown-menu {
+                position: static;
+                display: none;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                margin-top: 0.5rem;
+            }
+
+            .dropdown-wrapper.open .dropdown-menu {
+                display: block;
+            }
+        }
+
+        /* Mobile Drawer Link Hover & Active Underlines */
+        #mobile-drawer nav a:not(.rounded-full) {
+            position: relative;
+            transition: color 0.2s ease;
+            width: fit-content;
+        }
+
+        #mobile-drawer nav a.active:not(.rounded-full) {
+            color: var(--accent-text) !important;
+        }
+
+        #mobile-drawer nav a:not(.rounded-full)::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -2px;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.2s ease;
+        }
+
+        #mobile-drawer nav a:not(.rounded-full):hover::after {
+            width: 100%;
+        }
+
+        /* RTL support for navigation spacing, underlines and menus */
+        html[dir="rtl"] #main-header .space-x-8 > :not([hidden]) ~ :not([hidden]) {
+            margin-right: 2rem !important;
+            margin-left: 0 !important;
+        }
+        html[dir="rtl"] .dropdown-menu {
+            left: auto;
+            right: 0;
+        }
+        html[dir="rtl"] .dropdown-menu a:hover {
+            transform: translateX(-4px);
+        }
+        html[dir="rtl"] .hover\:translate-x-1:hover {
+            transform: translateX(-0.25rem) !important;
+        }
+        html[dir="rtl"] .nav-link::after {
+            left: auto;
+            right: 0;
+        }
+        html[dir="rtl"] #mobile-drawer nav a:not(.rounded-full)::after {
+            left: auto;
+            right: 0;
+        }
+    </style>
+    <style id="typography-alignment">
+        /* Typography Alignment & Consistency Overrides */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 500 !important;
+        }
+        /* Keep paragraph weights 400-500 */
+        p:not(.font-medium), div.text-secondary {
+            font-weight: 400 !important;
+        }
+        /* Ensure proper text alignment inside cards */
+        .tire-card, .bg-card, .card {
+            text-align: left !important;
+        }
+        .text-center .tire-card, .text-center .bg-card {
+            text-align: left !important;
+        }
+        /* Reduce overly wide paragraphs inside containers for readability */
+        .container p, section > div > p.text-secondary {
+            max-width: 65ch;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .tire-card p, .bg-card p, .card p, .text-left p {
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+            max-width: none !important;
+        }
+    </style>
+    <style id="cta-improvements">
+        /* Primary CTA Highlights */
+        .btn-primary { white-space: nowrap;
+            box-shadow: 0 4px 12px 0 rgba(139, 92, 246, 0.4);
+            color: #ffffff !important;
+            font-weight: 600 !important;
+        }
+        html[data-theme='dark'] .btn-primary { white-space: nowrap;
+            box-shadow: 0 4px 12px 0 rgba(139, 92, 246, 0.3);
+            color: #ffffff !important; /* High contrast in dark mode */
+            font-weight: 600 !important;
+        }
+        
+        /* Hover Color Consistency & Contrast */
+        .btn-primary:hover {
+            background-color: var(--accent-dark) !important;
+            transform: translateY(-1px) scale(1.02);
+            box-shadow: 0 6px 16px 0 rgba(139, 92, 246, 0.5);
+        }
+        html[data-theme='dark'] .btn-primary:hover {
+            box-shadow: 0 6px 16px 0 rgba(139, 92, 246, 0.4);
+        }
+        
+        .btn-outline { white-space: nowrap;
+            color: var(--accent-text) !important;
+            border-color: var(--accent-text) !important;
+        }
+        .btn-outline:hover {
+            background-color: var(--accent) !important;
+            color: #ffffff !important;
+            transform: translateY(-1px);
+        }
+        html[data-theme='dark'] .btn-outline:hover {
+            color: #ffffff !important; /* High contrast in dark mode */
+        }
+
+        /* Align CTA buttons consistently inside cards/grids */
+        .tire-card, .dashboard-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+            gap: 1.25rem;
+        }
+        .tire-card > div:last-child, .dashboard-card > div:last-child, .dashboard-card > button:last-child {
+            margin-top: auto;
+        }
+    </style>
+    <style id="image-improvements">
+        /* Prevent image distortion globally */
+        img:not([src*="fav.png"]):not(.object-contain) {
+            object-fit: cover !important;
+        }
+        
+        /* Ensure proper background overlays for readability (apply to containers if needed) */
+        .bg-overlay {
+            position: relative;
+        }
+        .bg-overlay::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.8) 50%, rgba(0,0,0,0.95) 100%);
+            border-radius: inherit;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .bg-overlay > *:not(img) {
+            position: relative;
+            z-index: 2;
+        }
+    </style>
+    <style id="responsive-fixes">
+        /* Guarantee text wrapping on small screens */
+        body {
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            -ms-word-break: break-all;
+            word-break: break-word;
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+
+    <!-- Fixed Header -->
+    <header class="fixed top-0 left-0 w-full z-50 pt-3" id="main-header">
+        <nav
+            class="max-w-7xl mx-auto px-5 py-3 rounded-2xl flex items-center justify-between backdrop-blur-sm border border-border">
+            <a href="index.html" class="text-2xl font-bold tracking-tight text-accent flex items-center gap-2" style="font-weight: 700 !important;"><i class="fa-solid fa-mug-hot"></i> Chai House</a>
+            <!-- Desktop Center Nav -->
+            <div class="hidden xl:flex items-center space-x-8 rtl:space-x-reverse text-sm font-medium">
+                <div class="dropdown-wrapper">
+                    <button class="nav-link dropdown-toggle inline-flex items-center gap-1 active">
+                        <span>Home</span><i
+                            class="fas fa-chevron-down text-[10px] leading-none inline-block translate-y-[2.5px]"></i>
+                    </button>
+                    <div class="dropdown-menu">
+                        <a href="index.html" class="text-accent font-medium">Home 1</a>
+                        <a href="home2.html">Home 2</a>
+                    </div>
+                </div>
+                
+                <a href="menu.html" class="nav-link">Menu</a>
+                <a href="loyalty.html" class="nav-link">Loyalty Program</a>
+                <a href="gallery.html" class="nav-link">Gallery</a>
+                <a href="blog.html" class="nav-link">Blog</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </div>
+            <div class="hidden xl:flex items-center gap-4">
+                <button id="theme-toggle" class="text-secondary hover:text-accent transition-colors p-2" title="Toggle Dark/Light Mode">
+                    <i class="fas fa-moon light-icon"></i>
+                    <i class="fas fa-sun dark-icon hidden"></i>
+                </button>
+                <button id="lang-icon" class="text-secondary hover:text-accent transition-colors p-2" title="Toggle RTL/LTR">
+                    <i class="fas fa-exchange-alt"></i>
+                </button>
+                <a href="menu.html" class="btn-primary px-6 py-2 text-sm font-medium"><i class="fas fa-mug-hot mr-1"></i> Order Now</a>
+            </div>
+            <div class="xl:hidden flex items-center gap-3">
+                
+                <button id="drawer-toggle" class="p-2 text-accent"><i class="fas fa-bars text-2xl"></i></button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobile-drawer" class="fixed inset-0 z-[100] pointer-events-none">
+        <div id="drawer-backdrop" class="absolute inset-0 bg-black/50 opacity-0 transition pointer-events-none"></div>
+        <div id="drawer-panel" class="absolute top-0 left-0 w-80 h-full bg-card shadow-2xl transform -translate-x-full transition-transform duration-300 p-6 overflow-y-auto">
+            <div class="flex justify-between items-center border-b border-border pb-4"><a href="index.html" class="text-2xl font-bold tracking-tight text-accent flex items-center gap-2" style="font-weight: 700 !important;; color: var(--accent-text) !important;"><i class="fa-solid fa-mug-hot"></i> Chai House</a><button id="drawer-close"><i class="fas fa-times text-xl"></i></button></div>
+            <nav class="flex flex-col gap-3 mt-6">
+                <div>
+                    <button id="mobile-home-toggle" class="flex w-full justify-between items-center py-2 font-medium text-accent">Home <i class="fas fa-chevron-down text-xs"></i></button>
+                    <div id="mobile-home-submenu" class="pl-4 flex flex-col gap-2 mt-1 border-l border-border">
+                        <a href="index.html" class="text-accent font-medium">Home 1</a><a href="home2.html">Home 2</a>
+                    </div>
+                </div>
+                
+                <a href="menu.html" class="py-2 font-medium">Menu</a>
+                <a href="loyalty.html" class="py-2 font-medium">Loyalty Program</a>
+                <a href="gallery.html" class="py-2 font-medium">Gallery</a>
+                <a href="blog.html" class="py-2 font-medium">Blog</a>
+                <a href="about.html" class="py-2 font-medium">About</a>
+                <a href="contact.html" class="py-2 font-medium">Contact</a>
+                
+                <div class="pt-4 border-t border-border flex gap-3 mt-4">                    <a href="menu.html" class="flex-1 text-center bg-accent rounded-full py-2 text-white font-medium"><i class="fas fa-mug-hot mr-1"></i> Order Now</a>
+                </div>
+                <div class="flex justify-around mt-6 pt-2">
+                    <button id="mobile-theme-btn" class="p-2 text-secondary hover:text-accent transition-colors">
+                        <i class="fas fa-moon light-icon"></i>
+                        <i class="fas fa-sun dark-icon hidden"></i> Theme
+                    </button>
+                    <button id="mobile-rtl-btn" class="p-2 text-secondary hover:text-accent transition-colors">
+                        <i class="fas fa-exchange-alt"></i> RTL
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+  <main class="pt-24">
+<!-- ================= SECTION 1: HERO — SPLIT LAYOUT (LEFT CONTENT / RIGHT IMAGE) ================= -->
+<section class="relative pt-8 md:pt-12 pb-20" style="background: var(--bg-body);">
+    <div class="max-w-7xl mx-auto px-5 w-full">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+            <!-- LEFT: Content -->
+            <div class="order-2 lg:order-1 text-center lg:text-left">
+                <div class="inline-flex items-center gap-2 bg-[var(--hover-bg)] border border-[var(--border-light)] rounded-full px-4 py-1.5 mb-6">
+                    <i class="fas fa-heart text-[var(--accent-text)] text-xs"></i>
+                    <span class="text-xs font-semibold tracking-wider uppercase" style="color: var(--accent-text);">Our Story</span>
+                </div>
+
+                <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-6xl font-semibold leading-[1.05] mb-6" style="color: var(--text-primary); font-weight: 600 !important;">
+                    Brewed with<br>
+                    <span style="color: var(--accent-text);">Purpose & Passion.</span>
+                </h1>
+
+                <p class="text-base sm:text-lg max-w-xl mx-auto lg:mx-0 mb-8 leading-relaxed" style="color: var(--text-secondary);">
+                    What started as a tiny roadside stall with one kettle and a dream has grown into the neighborhood's 
+                    most-loved chai destination. This is the story of Chai House.
+                </p>
+
+                <!-- Quick Info Badges -->
+                <div class="flex flex-wrap items-center justify-center lg:justify-start gap-3 mb-8">
+                    <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium border border-[var(--border-light)] bg-[var(--card-bg)]" style="color: var(--text-secondary);">
+                        <i class="fas fa-calendar text-[var(--accent-text)]"></i> Est. 2010
+                    </span>
+                    <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium border border-[var(--border-light)] bg-[var(--card-bg)]" style="color: var(--text-secondary);">
+                        <i class="fas fa-users text-[var(--accent-text)]"></i> 12K+ Members
+                    </span>
+                    <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium border border-[var(--border-light)] bg-[var(--card-bg)]" style="color: var(--text-secondary);">
+                        <i class="fas fa-mug-hot text-[var(--accent-text)]"></i> 15 Years
+                    </span>
+                </div>
+
+                <!-- CTA Buttons -->
+                <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                    <a href="#story" class="btn-primary px-8 py-3.5 text-base font-semibold w-full sm:w-auto">
+                        <i class="fas fa-book-open mr-2"></i> Read Our Story
+                    </a>
+                    <a href="contact.html" class="btn-outline px-8 py-3.5 text-base font-semibold w-full sm:w-auto">
+                        <i class="fas fa-map-marker-alt mr-2"></i> Visit Us
+                    </a>
+                </div>
+            </div>
+
+            <!-- RIGHT: Image -->
+            <div class="order-1 lg:order-2 relative">
+                <div class="relative rounded-3xl overflow-hidden h-[300px] sm:h-[400px] lg:h-[480px] shadow-2xl">
+                    <img src="assets/tr1.jpg" 
+                         alt="Chaiwala at the stall" 
+                         class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
+                </div>
+
+                <!-- Floating Card: Since 2010 -->
+                <div class="absolute -bottom-4 -left-4 sm:-left-8 bg-[var(--card-bg)] border border-[var(--border-light)] rounded-2xl p-4 shadow-xl backdrop-blur-sm hidden sm:block">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-[var(--hover-bg)] flex items-center justify-center">
+                            <i class="fas fa-seedling text-[var(--accent-text)]"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs font-semibold" style="color: var(--text-primary);">Since 2010</p>
+                            <p class="text-[10px]" style="color: var(--text-secondary);">Serving the community</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ================= SECTION 2: OUR STORY — TIMELINE ================= -->
+<section id="story" class="py-20 md:py-28" style="background: var(--card-bg);">
+    <div class="max-w-7xl mx-auto px-5">
+        <!-- Section Header -->
+        <div class="text-center mb-14 md:mb-16">
+            <span class="text-xs font-semibold tracking-[0.2em] uppercase text-[var(--accent-text)] mb-3 block">Our Journey</span>
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-semibold mb-4" style="color: var(--text-primary); font-weight: 500 !important;">
+                From One Kettle to a Community
+            </h2>
+            <p class="text-base md:text-lg max-w-2xl mx-auto" style="color: var(--text-secondary);">
+                A look back at the milestones that shaped who we are today.
+            </p>
+        </div>
+
+        <!-- Timeline Layout — Vertical -->
+        <div class="relative max-w-4xl mx-auto">
+            <!-- Center Line -->
+            <div class="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 md:-translate-x-1/2" style="background: var(--border-light);"></div>
+
+            <!-- Timeline Item 1 -->
+            <div class="relative pl-14 md:pl-0 pb-12 md:pb-16">
+                <div class="md:grid md:grid-cols-2 md:gap-12 md:items-center">
+                    <div class="md:text-right md:pr-12">
+                        <span class="inline-block text-3xl md:text-4xl font-bold mb-2" style="color: var(--accent-text);">2010</span>
+                        <h3 class="text-xl font-semibold mb-2" style="color: var(--text-primary);">The First Kettle</h3>
+                        <p class="text-sm leading-relaxed" style="color: var(--text-secondary);">
+                            A single stall. One kettle. Two hands. Our founder started brewing chai on the corner of Brew Street with nothing but a family recipe and unwavering belief.
+                        </p>
+                    </div>
+                    <div class="hidden md:block"></div>
+                </div>
+                <!-- Dot -->
+                <div class="absolute left-4 md:left-1/2 top-1 w-4 h-4 rounded-full border-4 -translate-x-1/2" style="background: var(--accent); border-color: var(--card-bg);"></div>
+            </div>
+
+            <!-- Timeline Item 2 -->
+            <div class="relative pl-14 md:pl-0 pb-12 md:pb-16">
+                <div class="md:grid md:grid-cols-2 md:gap-12 md:items-center">
+                    <div class="hidden md:block"></div>
+                    <div class="md:pl-12">
+                        <span class="inline-block text-3xl md:text-4xl font-bold mb-2" style="color: var(--accent-text);">2014</span>
+                        <h3 class="text-xl font-semibold mb-2" style="color: var(--text-primary);">A Permanent Home</h3>
+                        <p class="text-sm leading-relaxed" style="color: var(--text-secondary);">
+                            We moved from a cart to a small shop with five tables. The community followed. Regulars became friends, and friends became family.
+                        </p>
+                    </div>
+                </div>
+                <div class="absolute left-4 md:left-1/2 top-1 w-4 h-4 rounded-full border-4 -translate-x-1/2" style="background: var(--accent); border-color: var(--card-bg);"></div>
+            </div>
+
+            <!-- Timeline Item 3 -->
+            <div class="relative pl-14 md:pl-0 pb-12 md:pb-16">
+                <div class="md:grid md:grid-cols-2 md:gap-12 md:items-center">
+                    <div class="md:text-right md:pr-12">
+                        <span class="inline-block text-3xl md:text-4xl font-bold mb-2" style="color: var(--accent-text);">2019</span>
+                        <h3 class="text-xl font-semibold mb-2" style="color: var(--text-primary);">30+ Brews, One Love</h3>
+                        <p class="text-sm leading-relaxed" style="color: var(--text-secondary);">
+                            We expanded our menu to over 30 chai varieties and specialty teas. Our signature Kadak Masala became the bestseller it is today.
+                        </p>
+                    </div>
+                    <div class="hidden md:block"></div>
+                </div>
+                <div class="absolute left-4 md:left-1/2 top-1 w-4 h-4 rounded-full border-4 -translate-x-1/2" style="background: var(--accent); border-color: var(--card-bg);"></div>
+            </div>
+
+            <!-- Timeline Item 4 -->
+            <div class="relative pl-14 md:pl-0 pb-12 md:pb-16">
+                <div class="md:grid md:grid-cols-2 md:gap-12 md:items-center">
+                    <div class="hidden md:block"></div>
+                    <div class="md:pl-12">
+                        <span class="inline-block text-3xl md:text-4xl font-bold mb-2" style="color: var(--accent-text);">2022</span>
+                        <h3 class="text-xl font-semibold mb-2" style="color: var(--text-primary);">Chai House Rewards</h3>
+                        <p class="text-sm leading-relaxed" style="color: var(--text-secondary);">
+                            We launched our loyalty program to give back to the people who made us. Over 12,000 members have joined since.
+                        </p>
+                    </div>
+                </div>
+                <div class="absolute left-4 md:left-1/2 top-1 w-4 h-4 rounded-full border-4 -translate-x-1/2" style="background: var(--accent); border-color: var(--card-bg);"></div>
+            </div>
+
+            <!-- Timeline Item 5 -->
+            <div class="relative pl-14 md:pl-0">
+                <div class="md:grid md:grid-cols-2 md:gap-12 md:items-center">
+                    <div class="md:text-right md:pr-12">
+                        <span class="inline-block text-3xl md:text-4xl font-bold mb-2" style="color: var(--accent-text);">Today</span>
+                        <h3 class="text-xl font-semibold mb-2" style="color: var(--text-primary);">Still Brewing Strong</h3>
+                        <p class="text-sm leading-relaxed" style="color: var(--text-secondary);">
+                            We're still here, still brewing, still serving. Every cup is a promise that we'll never compromise on quality or heart.
+                        </p>
+                    </div>
+                    <div class="hidden md:block"></div>
+                </div>
+                <div class="absolute left-4 md:left-1/2 top-1 w-4 h-4 rounded-full border-4 -translate-x-1/2" style="background: var(--accent); border-color: var(--card-bg);"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ================= SECTION 3: OUR VALUES — WHAT WE STAND FOR ================= -->
+<section class="py-20 md:py-28" style="background: var(--bg-body);">
+    <div class="max-w-7xl mx-auto px-5">
+        <!-- Section Header -->
+        <div class="text-center mb-14 md:mb-16">
+            <span class="text-xs font-semibold tracking-[0.2em] uppercase text-[var(--accent-text)] mb-3 block">What We Believe</span>
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-semibold mb-4" style="color: var(--text-primary); font-weight: 500 !important;">
+                Our Values
+            </h2>
+            <p class="text-base md:text-lg max-w-2xl mx-auto" style="color: var(--text-secondary);">
+                Four principles that guide every decision we make, every cup we serve.
+            </p>
+        </div>
+
+        <!-- Values Grid — 2x2 Split Layout -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+            <!-- Value 1 -->
+            <div class="rounded-2xl border border-[var(--border-light)] bg-[var(--card-bg)] p-6 md:p-8 flex flex-col sm:flex-row gap-5">
+                <div class="w-14 h-14 rounded-2xl bg-[var(--hover-bg)] flex items-center justify-center flex-shrink-0">
+                    <i class="fas fa-leaf text-[var(--accent-text)] text-2xl"></i>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold mb-3" style="color: var(--text-primary);">Real Ingredients, Always</h3>
+                    <p class="text-sm leading-relaxed" style="color: var(--text-secondary);">
+                        No powders. No syrups. No shortcuts. We use whole spices ground fresh, real milk, 
+                        and premium tea leaves from Assam and Darjeeling. If it's not something we'd serve our own family, 
+                        it doesn't go in the cup.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Value 2 -->
+            <div class="rounded-2xl border border-[var(--border-light)] bg-[var(--card-bg)] p-6 md:p-8 flex flex-col sm:flex-row gap-5">
+                <div class="w-14 h-14 rounded-2xl bg-[var(--hover-bg)] flex items-center justify-center flex-shrink-0">
+                    <i class="fas fa-hand-holding-heart text-[var(--accent-text)] text-2xl"></i>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold mb-3" style="color: var(--text-primary);">Hospitality First</h3>
+                    <p class="text-sm leading-relaxed" style="color: var(--text-secondary);">
+                        We remember your name. We remember your order. We ask about your day. 
+                        A chai stall is more than a business — it's a place where people feel seen. 
+                        That's the standard we hold ourselves to every single day.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Value 3 -->
+            <div class="rounded-2xl border border-[var(--border-light)] bg-[var(--card-bg)] p-6 md:p-8 flex flex-col sm:flex-row gap-5">
+                <div class="w-14 h-14 rounded-2xl bg-[var(--hover-bg)] flex items-center justify-center flex-shrink-0">
+                    <i class="fas fa-recycle text-[var(--accent-text)] text-2xl"></i>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold mb-3" style="color: var(--text-primary);">Care for the Planet</h3>
+                    <p class="text-sm leading-relaxed" style="color: var(--text-secondary);">
+                        Compostable kulhads. Paper straws. Local sourcing wherever possible. 
+                        Bring your own mug and we'll take ₹5 off. Small actions, done consistently, 
+                        add up to a big difference.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Value 4 -->
+            <div class="rounded-2xl border border-[var(--border-light)] bg-[var(--card-bg)] p-6 md:p-8 flex flex-col sm:flex-row gap-5">
+                <div class="w-14 h-14 rounded-2xl bg-[var(--hover-bg)] flex items-center justify-center flex-shrink-0">
+                    <i class="fas fa-users text-[var(--accent-text)] text-2xl"></i>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold mb-3" style="color: var(--text-primary);">Community Over Everything</h3>
+                    <p class="text-sm leading-relaxed" style="color: var(--text-secondary);">
+                        We hire locally. We source locally. We invest in the neighborhood that raised us. 
+                        From sponsoring school events to hosting free chai mornings for seniors, 
+                        giving back isn't a marketing strategy — it's a responsibility.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ================= SECTION 4: MEET THE TEAM — THE PEOPLE BEHIND THE CUP ================= -->
+<section class="py-20 md:py-28" style="background: var(--card-bg);">
+    <div class="max-w-7xl mx-auto px-5">
+        <!-- Section Header -->
+        <div class="text-center mb-14 md:mb-16">
+            <span class="text-xs font-semibold tracking-[0.2em] uppercase text-[var(--accent-text)] mb-3 block">The Team</span>
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-semibold mb-4" style="color: var(--text-primary); font-weight: 500 !important;">
+                Meet the Hands Behind the Cup
+            </h2>
+            <p class="text-base md:text-lg max-w-2xl mx-auto" style="color: var(--text-secondary);">
+                The chaiwalas, hosts, and bakers who make Chai House what it is.
+            </p>
+        </div>
+
+        <!-- Team Grid — 4 Members -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Team Member 1 -->
+            <div class="rounded-2xl overflow-hidden border border-[var(--border-light)] bg-[var(--bg-body)] group flex flex-col h-full">
+                <div class="h-64 overflow-hidden">
+                    <img src="assets/f1.jpg" 
+                         alt="Rajesh Kumar" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                </div>
+                <div class="p-5 text-center flex flex-col flex-1 justify-center">
+                    <h3 class="text-lg font-semibold mb-1" style="color: var(--text-primary);">Rajesh Kumar</h3>
+                    <p class="text-xs font-semibold uppercase tracking-wider mb-3" style="color: var(--accent-text);">Founder & Head Chaiwala</p>
+                    <p class="text-sm leading-relaxed" style="color: var(--text-secondary);">
+                        30 years of brewing experience. Knows your order before you say it.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Team Member 2 -->
+            <div class="rounded-2xl overflow-hidden border border-[var(--border-light)] bg-[var(--bg-body)] group flex flex-col h-full">
+                <div class="h-64 overflow-hidden">
+                    <img src="assets/f2.jpg" 
+                         alt="Priya Sharma" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                </div>
+                <div class="p-5 text-center flex flex-col flex-1 justify-center">
+                    <h3 class="text-lg font-semibold mb-1" style="color: var(--text-primary);">Priya Sharma</h3>
+                    <p class="text-xs font-semibold uppercase tracking-wider mb-3" style="color: var(--accent-text);">Operations & Community</p>
+                    <p class="text-sm leading-relaxed" style="color: var(--text-secondary);">
+                        Runs the entire loyalty program and knows every single regular by name.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Team Member 3 -->
+            <div class="rounded-2xl overflow-hidden border border-[var(--border-light)] bg-[var(--bg-body)] group flex flex-col h-full">
+                <div class="h-64 overflow-hidden">
+                    <img src="assets/f3.jpg" 
+                         alt="Ananya Patel" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                </div>
+                <div class="p-5 text-center flex flex-col flex-1 justify-center">
+                    <h3 class="text-lg font-semibold mb-1" style="color: var(--text-primary);">Ananya Patel</h3>
+                    <p class="text-xs font-semibold uppercase tracking-wider mb-3" style="color: var(--accent-text);">Head Baker</p>
+                    <p class="text-sm leading-relaxed" style="color: var(--text-secondary);">
+                        The talented baker behind every croissant, brownie, and banana cake we serve.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Team Member 4 -->
+            <div class="rounded-2xl overflow-hidden border border-[var(--border-light)] bg-[var(--bg-body)] group flex flex-col h-full">
+                <div class="h-64 overflow-hidden">
+                    <img src="assets/f4.jpg" 
+                         alt="Rahul Mehta" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                </div>
+                <div class="p-5 text-center flex flex-col flex-1 justify-center">
+                    <h3 class="text-lg font-semibold mb-1" style="color: var(--text-primary);">Rahul Mehta</h3>
+                    <p class="text-xs font-semibold uppercase tracking-wider mb-3" style="color: var(--accent-text);">Tea Sommelier</p>
+                    <p class="text-sm leading-relaxed" style="color: var(--text-secondary);">
+                        Carefully curates our specialty tea selection and personally trains all new chaiwalas.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ================= SECTION 5: IMPACT & COMMUNITY STATS ================= -->
+<section class="py-20 md:py-28" style="background: var(--bg-body);">
+    <div class="max-w-7xl mx-auto px-5">
+        <!-- Section Header -->
+        <div class="text-center mb-14 md:mb-16">
+            <span class="text-xs font-semibold tracking-[0.2em] uppercase text-[var(--accent-text)] mb-3 block">Our Impact</span>
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-semibold mb-4" style="color: var(--text-primary); font-weight: 500 !important;">
+                More Than Just Numbers
+            </h2>
+            <p class="text-base md:text-lg max-w-2xl mx-auto" style="color: var(--text-secondary);">
+                Every cup sold contributes to something bigger than a business.
+            </p>
+        </div>
+
+        <!-- Impact Split Layout -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-14 items-center mb-14">
+            <!-- Left: Big Image with Overlay Stats -->
+            <div class="relative rounded-3xl overflow-hidden h-80 sm:h-96">
+                <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=1000&auto=format&fit=crop" 
+                     alt="Chai House community" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                <div class="absolute bottom-0 left-0 right-0 p-6 md:p-8">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <div class="text-3xl md:text-4xl font-bold text-white mb-1">45K+</div>
+                            <p class="text-white/70 text-xs uppercase tracking-wider">Cups Served Monthly</p>
+                        </div>
+                        <div>
+                            <div class="text-3xl md:text-4xl font-bold text-white mb-1">12K+</div>
+                            <p class="text-white/70 text-xs uppercase tracking-wider">Loyalty Members</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Impact Items -->
+            <div class="space-y-6">
+                <!-- Impact 1 -->
+                <div class="flex gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-[var(--hover-bg)] flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-tree text-[var(--accent-text)] text-xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold mb-1" style="color: var(--text-primary);">5,000+ Trees Planted</h3>
+                        <p class="text-sm leading-relaxed" style="color: var(--text-secondary);">
+                            ₹1 from every chai sold goes toward local tree-planting initiatives. 
+                            We've planted over 5,000 saplings since 2020.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Impact 2 -->
+                <div class="flex gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-[var(--hover-bg)] flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-graduation-cap text-[var(--accent-text)] text-xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold mb-1" style="color: var(--text-primary);">Free Chai for Students</h3>
+                        <p class="text-sm leading-relaxed" style="color: var(--text-secondary);">
+                            Every exam season, we offer free chai to students during morning hours. 
+                            Education matters, and so does a warm cup of motivation.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Impact 3 -->
+                <div class="flex gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-[var(--hover-bg)] flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-hand-holding-usd text-[var(--accent-text)] text-xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold mb-1" style="color: var(--text-primary);">Locally Sourced Ingredients</h3>
+                        <p class="text-sm leading-relaxed" style="color: var(--text-secondary);">
+                            80% of our ingredients come from farmers and vendors within 50 km. 
+                            We believe in keeping money in the community.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Bar -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 pt-10 border-t border-[var(--border-light)]">
+            <div class="text-center">
+                <div class="text-3xl md:text-4xl font-bold text-[var(--accent-text)] mb-2">15+</div>
+                <p class="text-sm" style="color: var(--text-secondary);">Years of Service</p>
+            </div>
+            <div class="text-center">
+                <div class="text-3xl md:text-4xl font-bold text-[var(--accent-text)] mb-2">30+</div>
+                <p class="text-sm" style="color: var(--text-secondary);">Chai Varieties</p>
+            </div>
+            <div class="text-center">
+                <div class="text-3xl md:text-4xl font-bold text-[var(--accent-text)] mb-2">4.9★</div>
+                <p class="text-sm" style="color: var(--text-secondary);">Average Rating</p>
+            </div>
+            <div class="text-center">
+                <div class="text-3xl md:text-4xl font-bold text-[var(--accent-text)] mb-2">92%</div>
+                <p class="text-sm" style="color: var(--text-secondary);">Return Rate</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ================= SECTION 6: FINAL CTA — JOIN THE CHAI HOUSE FAMILY ================= -->
+<section class="relative py-24 md:py-32 overflow-hidden">
+    <!-- Background Image -->
+    <div class="absolute inset-0 z-0">
+        <img src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?q=80&w=2070&auto=format&fit=crop" 
+             alt="Chai stall with steam rising" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-black/75 to-black/60"></div>
+    </div>
+
+    <!-- CTA Content -->
+    <div class="relative z-10 max-w-4xl mx-auto px-5 text-center">
+        <div class="w-16 h-16 rounded-full bg-[var(--accent)] flex items-center justify-center mx-auto mb-6">
+            <i class="fas fa-heart text-white text-2xl"></i>
+        </div>
+
+        <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-white mb-6 leading-tight" style="font-weight: 600 !important;">
+            Come Be Part of<br>
+            <span class="text-[var(--accent)]">Our Story.</span>
+        </h2>
+        <p class="text-base sm:text-lg md:text-xl text-white/80 max-w-2xl mx-auto mb-10 leading-relaxed">
+            Fifteen years in, and we're still writing new chapters every day. 
+            Walk in as a stranger, leave as a regular. Your first cup is on us.
+        </p>
+
+        <!-- CTA Buttons -->
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
+            <a href="contact.html" class="btn-primary px-10 py-4 text-base font-semibold w-full sm:w-auto">
+                <i class="fas fa-map-marker-alt mr-2"></i> Visit the Stall
+            </a>
+            <a href="menu.html" class="btn-outline px-10 py-4 text-base font-semibold w-full sm:w-auto border-white/40 text-white hover:bg-white/10 hover:border-white">
+                <i class="fas fa-mug-hot mr-2"></i> Browse Menu
+            </a>
+        </div>
+
+        <!-- Contact Strip -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto">
+            <div class="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4">
+                <i class="fas fa-clock text-[var(--accent)] mb-2 text-lg"></i>
+                <p class="text-white text-sm font-semibold">7am – 9pm</p>
+                <p class="text-white/60 text-xs">Open Daily</p>
+            </div>
+            <div class="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4">
+                <i class="fas fa-phone text-[var(--accent)] mb-2 text-lg"></i>
+                <p class="text-white text-sm font-semibold">(800) 555-CHAI</p>
+                <p class="text-white/60 text-xs">Call Us Anytime</p>
+            </div>
+            <div class="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4">
+                <i class="fas fa-map-pin text-[var(--accent)] mb-2 text-lg"></i>
+                <p class="text-white text-sm font-semibold">42 Brew Street</p>
+                <p class="text-white/60 text-xs">Tea District</p>
+            </div>
+        </div>
+    </div>
+</section>
+</main>
+
+    <!-- Footer -->
+        <footer class="pt-16 pb-8 border-t border-slate-800"
+        style="background: var(--footer-bg); color: var(--footer-text);">
+        <div class="max-w-7xl mx-auto px-5 grid grid-cols-2 md:grid-cols-6 lg:grid-cols-5 gap-8">
+            <div class="col-span-2 md:col-span-6 lg:col-span-1">
+                  <a href="index.html" class="text-2xl font-bold tracking-tight text-accent flex items-center gap-2" style="font-weight: 700 !important;"><i class="fa-solid fa-mug-hot"></i> Chai House</a>
+                <p class="text-xs text-slate-400 mt-3 leading-relaxed">
+                    Cozy, aromatic tea house offering signature chai blends, specialty teas, and a warm atmosphere. Come sip and savor!
+                </p>
+                <div class="mt-4 space-y-2 text-xs text-slate-300">
+                    <p class="flex items-center gap-2"><i class="fas fa-phone text-accent"></i> (800) 555-CHAI</p>
+                    <p class="flex items-center gap-2"><i class="far fa-clock text-accent"></i> Mon-Sun, 7am-9pm</p>
+                </div>
+                <div class="flex gap-2.5 mt-5">
+                    <a href="#" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-accent flex items-center justify-center transition-all duration-300 text-white"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-accent flex items-center justify-center transition-all duration-300 text-white"><i class="fab fa-facebook-f text-sm"></i></a>
+                    <a href="#" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-accent flex items-center justify-center transition-all duration-300 text-white"><i class="fab fa-x-twitter"></i></a>
+                    <a href="#" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-accent flex items-center justify-center transition-all duration-300 text-white"><i class="fab fa-linkedin-in text-sm"></i></a>
+                </div>
+            </div>
+            <div class="col-span-1 md:col-span-2 lg:col-span-1"> <h4 class="font-medium text-sm tracking-wider uppercase text-white mb-4">Menu</h4>
+                <ul class="text-xs space-y-2.5 text-slate-400">
+                    <li><a href="menu.html" class="hover:text-accent hover:translate-x-1 inline-block transition-all duration-200">Signature Chai</a></li>
+                    <li><a href="menu.html" class="hover:text-accent hover:translate-x-1 inline-block transition-all duration-200">Specialty Teas</a></li>
+                    <li><a href="menu.html" class="hover:text-accent hover:translate-x-1 inline-block transition-all duration-200">Iced Beverages</a></li>
+                    <li><a href="menu.html" class="hover:text-accent hover:translate-x-1 inline-block transition-all duration-200">Snacks & Pastries</a></li>
+                    <li><a href="menu.html" class="hover:text-accent hover:translate-x-1 inline-block transition-all duration-200">Vegan Options</a></li>
+                </ul>
+            </div>
+            <div class="col-span-1 md:col-span-2 lg:col-span-1"> <h4 class="font-medium text-sm tracking-wider uppercase text-white mb-4">Support</h4>
+                <ul class="text-xs space-y-2.5 text-slate-400">
+                    <li><a href="contact.html" class="hover:text-accent hover:translate-x-1 inline-block transition-all duration-200">Find Us</a></li>
+                    <li><a href="loyalty.html" class="hover:text-accent hover:translate-x-1 inline-block transition-all duration-200">Loyalty Program</a></li>
+                    <li><a href="about.html" class="hover:text-accent hover:translate-x-1 inline-block transition-all duration-200">Catering</a></li>
+                    <li><a href="about.html" class="hover:text-accent hover:translate-x-1 inline-block transition-all duration-200">Gift Cards</a></li>
+                    <li><a href="contact.html" class="hover:text-accent hover:translate-x-1 inline-block transition-all duration-200">Customer FAQ</a></li>
+                </ul>
+            </div>
+            <div class="col-span-1 md:col-span-2 lg:col-span-1"> <h4 class="font-medium text-sm tracking-wider uppercase text-white mb-4">Company</h4>
+                <ul class="text-xs space-y-2.5 text-slate-400">
+                    <li><a href="menu.html" class="hover:text-accent hover:translate-x-1 inline-block transition-all duration-200">Our Story</a></li>
+                    <li><a href="about.html" class="hover:text-accent hover:translate-x-1 inline-block transition-all duration-200">About Chai House</a></li>
+                    <li><a href="contact.html" class="hover:text-accent hover:translate-x-1 inline-block transition-all duration-200">Careers</a></li>
+                    <li><a href="about.html" class="hover:text-accent hover:translate-x-1 inline-block transition-all duration-200">Blog</a></li>
+                    <li><a href="contact.html" class="hover:text-accent hover:translate-x-1 inline-block transition-all duration-200">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="col-span-2 md:col-span-6 lg:col-span-1"> <h4 class="font-medium text-sm tracking-wider uppercase text-white mb-4">Stay Connected</h4>
+                <p class="text-xs text-slate-400 mb-3 leading-relaxed">
+                    Subscribe for updates, exclusive offers, and the latest tea blends.
+                </p>
+                <form class="flex gap-2" onsubmit="event.preventDefault(); alert('Subscribed successfully!');">
+                    <input type="email" placeholder="Your email address" required class="bg-slate-800 border border-slate-700 text-white text-xs rounded-lg px-3 py-2 w-full focus:outline-none focus:border-accent transition-colors">
+                    <button type="submit" class="bg-accent text-white px-3 py-2 rounded-lg text-xs font-medium hover:opacity-90 transition-opacity"><i class="fas fa-paper-plane"></i></button>
+                </form>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-5 mt-12 pt-6 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-400">
+            <p>&copy; 2026 Chai House. Savor the moment. All rights reserved.</p>
+            <div class="flex gap-6">
+                <a href="contact.html" class="hover:text-accent transition-colors">Privacy Policy</a>
+                <a href="contact.html" class="hover:text-accent transition-colors">Terms of Service</a>
+                <a href="contact.html" class="hover:text-accent transition-colors">Cookie Settings</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        (function () {
+            const html = document.documentElement;
+            // Theme toggles
+            const themeBtn = document.getElementById('theme-toggle'), mobileTheme = document.getElementById('mobile-theme-btn');
+            const applyTheme = (theme) => { html.setAttribute('data-theme', theme); localStorage.setItem('theme', theme); document.querySelectorAll('.light-icon').forEach(icon => icon.classList.toggle('hidden', theme === 'dark')); document.querySelectorAll('.dark-icon').forEach(icon => icon.classList.toggle('hidden', theme === 'light')); };
+            const initTheme = () => { const stored = localStorage.getItem('theme'); const prefers = window.matchMedia('(prefers-color-scheme: dark)').matches; applyTheme(stored === 'dark' || (!stored && prefers) ? 'dark' : 'light'); };
+            const toggleTheme = () => { const cur = html.getAttribute('data-theme'); applyTheme(cur === 'light' ? 'dark' : 'light'); };
+            themeBtn?.addEventListener('click', toggleTheme); if (mobileTheme) mobileTheme.addEventListener('click', toggleTheme);
+            initTheme();
+            // RTL
+            const langBtn = document.getElementById('lang-icon'), mobileRtl = document.getElementById('mobile-rtl-btn');
+            const toggleRtl = () => { const isRtl = html.getAttribute('dir') === 'rtl'; html.setAttribute('dir', isRtl ? 'ltr' : 'rtl'); localStorage.setItem('dir', isRtl ? 'ltr' : 'rtl'); };
+            if (langBtn) langBtn.addEventListener('click', toggleRtl);
+            if (mobileRtl) mobileRtl.addEventListener('click', toggleRtl);
+            const savedDir = localStorage.getItem('dir') === 'rtl' ? 'rtl' : 'ltr'; html.setAttribute('dir', savedDir);
+            // dropdowns desktop
+            document.querySelectorAll('.dropdown-wrapper').forEach(drop => {
+                const btn = drop.querySelector('.dropdown-toggle');
+                if (window.innerWidth >= 1280) {
+                    drop.addEventListener('mouseenter', () => drop.classList.add('open'));
+                    drop.addEventListener('mouseleave', () => drop.classList.remove('open'));
+                } else {
+                    btn?.addEventListener('click', (e) => { e.preventDefault(); drop.classList.toggle('open'); });
+                }
+            });
+            document.addEventListener('click', (e) => { if (!e.target.closest('.dropdown-wrapper')) document.querySelectorAll('.dropdown-wrapper').forEach(d => d.classList.remove('open')); });
+            // Mobile drawer
+            const drawer = document.getElementById('mobile-drawer'), backdrop = document.getElementById('drawer-backdrop'), panel = document.getElementById('drawer-panel'), openBtn = document.getElementById('drawer-toggle'), closeBtn = document.getElementById('drawer-close');
+            const openDrawer = () => { drawer.classList.remove('pointer-events-none'); panel.classList.remove('-translate-x-full'); backdrop.classList.add('opacity-100', 'pointer-events-auto'); document.body.style.overflow = 'hidden'; };
+            const closeDrawer = () => { panel.classList.add('-translate-x-full'); backdrop.classList.remove('opacity-100', 'pointer-events-auto'); setTimeout(() => drawer.classList.add('pointer-events-none'), 300); document.body.style.overflow = ''; };
+            openBtn?.addEventListener('click', openDrawer); closeBtn?.addEventListener('click', closeDrawer); backdrop?.addEventListener('click', closeDrawer);
+            document.getElementById('mobile-home-toggle')?.addEventListener('click', () => { document.getElementById('mobile-home-submenu')?.classList.toggle('hidden'); });
+            document.getElementById('mobile-dashboard-toggle')?.addEventListener('click', () => { document.getElementById('mobile-dashboard-submenu')?.classList.toggle('hidden'); });
+            // reveal animation
+            const reveals = document.querySelectorAll('.reveal');
+            const observer = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('active'); }); }, { threshold: 0.15 });
+            reveals.forEach(r => observer.observe(r));
+            // Add active nav based on hash
+            const navLinks = document.querySelectorAll('.nav-link, .dropdown-menu a, #mobile-drawer a');
+            navLinks.forEach(link => { link.addEventListener('click', function (e) { if (this.getAttribute('href')?.startsWith('#')) e.preventDefault(); window.location.hash = this.getAttribute('href')?.slice(1) || ''; }); });
+
+            // Dynamic Active Page Highlighter (Desktop & Mobile)
+            const currentPath = window.location.pathname;
+            let currentPage = currentPath.substring(currentPath.lastIndexOf('/') + 1);
+            if (!currentPage || currentPage === '/') currentPage = 'index.html';
+
+            // 1. Clean slate: clear all hardcoded active classes
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+            document.querySelectorAll('.dropdown-toggle').forEach(link => link.classList.remove('active'));
+            document.querySelectorAll('.dropdown-menu a').forEach(link => link.classList.remove('text-accent', 'font-medium'));
+            
+            const mobileDrawer = document.getElementById('mobile-drawer');
+            if (mobileDrawer) {
+                mobileDrawer.querySelectorAll('a').forEach(link => {
+                    link.classList.remove('active', 'text-accent', 'font-medium');
+                });
+                mobileDrawer.querySelectorAll('button').forEach(btn => {
+                    btn.classList.remove('text-accent');
+                });
+                // Reset submenus to hidden
+                const dbSub = document.getElementById('mobile-dashboard-submenu');
+                if (dbSub) dbSub.classList.add('hidden');
+                const homeSub = document.getElementById('mobile-home-submenu');
+                if (homeSub) homeSub.classList.add('hidden');
+            }
+
+            // 2. Desktop Highlighting
+            let desktopMatched = false;
+            document.querySelectorAll('.dropdown-menu a').forEach(link => {
+                const href = link.getAttribute('href');
+                if (href === currentPage) {
+                    link.classList.add('text-accent', 'font-medium');
+                    const wrapper = link.closest('.dropdown-wrapper');
+                    if (wrapper) {
+                        const toggle = wrapper.querySelector('.dropdown-toggle');
+                        if (toggle) toggle.classList.add('active');
+                    }
+                    desktopMatched = true;
+                }
+            });
+
+            if (!desktopMatched) {
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    const wrapper = link.closest('.dropdown-wrapper');
+                    if (!wrapper) {
+                        const href = link.getAttribute('href');
+                        if (href === currentPage) {
+                            link.classList.add('active');
+                        }
+                    }
+                });
+            }
+
+            // 3. Mobile Highlighting
+            if (mobileDrawer) {
+                let mobileMatched = false;
+                mobileDrawer.querySelectorAll('a').forEach(link => {
+                    const href = link.getAttribute('href');
+                    if (href === currentPage) {
+                        link.classList.add('active');
+                        if (!link.classList.contains('rounded-full')) {
+                            link.classList.add('text-accent', 'font-medium');
+                        }
+                        
+                        // Handle parents/submenus
+                        const homeSubmenu = document.getElementById('mobile-home-submenu');
+                        const dashboardSubmenu = document.getElementById('mobile-dashboard-submenu');
+                        
+                        if (homeSubmenu && homeSubmenu.contains(link)) {
+                            const homeToggle = document.getElementById('mobile-home-toggle');
+                            if (homeToggle) homeToggle.classList.add('text-accent');
+                            homeSubmenu.classList.remove('hidden');
+                        } else if (dashboardSubmenu && dashboardSubmenu.contains(link)) {
+                            const dashboardToggle = document.getElementById('mobile-dashboard-toggle');
+                            if (dashboardToggle) dashboardToggle.classList.add('text-accent');
+                            dashboardSubmenu.classList.remove('hidden');
+                        }
+                        mobileMatched = true;
+                    }
+                });
+
+                // Fallback for index.html / home2.html / empty path
+                if (!mobileMatched && (currentPage === 'index.html' || currentPage === 'home2.html')) {
+                    const homeToggle = document.getElementById('mobile-home-toggle');
+                    if (homeToggle) homeToggle.classList.add('text-accent');
+                    const homeSubmenu = document.getElementById('mobile-home-submenu');
+                    if (homeSubmenu) homeSubmenu.classList.remove('hidden');
+                    
+                    const matchingLink = mobileDrawer.querySelector(`a[href="${currentPage}"]`);
+                    if (matchingLink) {
+                        matchingLink.classList.add('active', 'text-accent', 'font-medium');
+                    }
+                }
+            }
+        })();
+    </script>
+    <!-- home2.html redirect simulation: if path includes home2.html, just update theme but fully functional -->
+    <script>
+        // MOCK support for home2 version
+        if (window.location.pathname.includes('home2.html')) { document.title = "Chai House | Premium Edition"; }
+    </script>
+    <!-- Floating Call Button -->
+    <a href="tel:8005557655" class="fixed bottom-6 right-6 bg-accent text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl z-[90] hover:bg-accent-dark transition-transform hover:scale-110 flex md:hidden" style="box-shadow: 0 4px 14px rgba(139, 92, 246, 0.5);">
+        <i class="fas fa-phone text-2xl"></i>
+    </a>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

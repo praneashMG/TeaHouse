@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-theme="light">
+
+<head>
+    <link rel="icon" type="image/png" href="assets/fav.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Page Not Found | Chai House</title>
+    <!-- Tailwind + FontAwesome -->
+    <script src="tailwind.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <style>
+        /* ========== THEME VARIABLES ========== */
+        :root,
+        html[data-theme='light'] {
+            --bg-body: #FAF4E8;
+            --text-primary: #3E2723;
+            --text-secondary: #5D4037;
+            --accent: #D84315;
+            --accent-text: #BF360C;
+            --accent-dark: #A62A08;
+            --primary: #4E342E;
+            --card-bg: #FFFFFF;
+            --border-light: #EFEBE9;
+            --hover-bg: #FBE9E7;
+            --rating-star: #FFB300;
+        }
+
+        html[data-theme='dark'] {
+            --bg-body: #1E120D;
+            --text-primary: #EFEBE9;
+            --text-secondary: #BCAAA4;
+            --accent: #FF7043;
+            --accent-text: #FF8A65;
+            --accent-dark: #F4511E;
+            --primary: #8D6E63;
+            --card-bg: #2D1C15;
+            --border-light: #4E342E;
+            --hover-bg: #3E2723;
+            --rating-star: #FFCA28;
+        }
+
+        body {
+            background: var(--bg-body);
+            color: var(--text-primary);
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            transition: background-color 0.25s ease, color 0.2s;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .text-accent { color: var(--accent-text); }
+        .bg-accent { background-color: var(--accent); }
+        .bg-card { background-color: var(--card-bg); }
+        .text-secondary { color: var(--text-secondary); }
+        .border-border { border-color: var(--border-light); }
+
+        /* Buttons */
+        .btn-primary {
+            white-space: nowrap;
+            background: var(--accent);
+            color: #ffffff !important;
+            border-radius: 9999px;
+            transition: 0.2s;
+            font-weight: 600 !important;
+            box-shadow: 0 4px 12px 0 rgba(216, 67, 21, 0.4);
+        }
+        .btn-primary:hover {
+            background: var(--accent-dark);
+            transform: translateY(-1px) scale(1.02);
+            box-shadow: 0 6px 16px 0 rgba(216, 67, 21, 0.5);
+        }
+
+        .btn-outline {
+            white-space: nowrap;
+            border: 1.5px solid var(--accent-text);
+            color: var(--accent-text) !important;
+            border-radius: 9999px;
+            background: transparent;
+            transition: 0.2s;
+            font-weight: 600 !important;
+        }
+        .btn-outline:hover {
+            background: var(--accent);
+            color: #ffffff !important;
+            transform: translateY(-1px);
+        }
+
+        /* Theme toggle button */
+        .theme-btn {
+            transition: all 0.2s ease;
+            color: var(--text-secondary);
+        }
+        .theme-btn:hover {
+            color: var(--accent);
+            transform: rotate(15deg);
+        }
+
+        /* Floating animation */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .float-anim { animation: float 4s ease-in-out infinite; }
+
+        /* Steam animation */
+        @keyframes steam {
+            0% { opacity: 0; transform: translateY(0) scale(1); }
+            50% { opacity: 0.7; transform: translateY(-15px) scale(1.15); }
+            100% { opacity: 0; transform: translateY(-30px) scale(1.3); }
+        }
+        .steam-1 { animation: steam 3s ease-in-out infinite; }
+        .steam-2 { animation: steam 3s ease-in-out infinite 0.6s; }
+        .steam-3 { animation: steam 3s ease-in-out infinite 1.2s; }
+
+        /* Fade in animation */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in-up { animation: fadeInUp 0.7s ease forwards; }
+        .delay-1 { animation-delay: 0.1s; opacity: 0; }
+        .delay-2 { animation-delay: 0.25s; opacity: 0; }
+        .delay-3 { animation-delay: 0.4s; opacity: 0; }
+        .delay-4 { animation-delay: 0.55s; opacity: 0; }
+
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 { font-weight: 500 !important; }
+        p { font-weight: 400 !important; }
+    </style>
+</head>
+
+<body class="antialiased">
+
+    <!-- Top Bar: Logo (Left) + Theme Toggle (Right) -->
+    <div class="w-full max-w-7xl mx-auto px-5 py-5 flex items-center justify-between">
+        <!-- Logo -->
+        <a href="index.html" class="text-2xl font-bold tracking-tight text-accent flex items-center gap-2" style="font-weight: 700 !important;">
+            <i class="fa-solid fa-mug-hot"></i> Chai House
+        </a>
+        <div class="flex items-center gap-2"><!-- Theme Toggle --><button id="theme-toggle" class="theme-btn p-2 text-secondary hover:text-accent transition-colors" title="Toggle Dark/Light Mode"><i class="fas fa-moon light-icon"></i><i class="fas fa-sun dark-icon hidden"></i></button><button id="lang-icon" class="theme-btn p-2 text-secondary hover:text-accent transition-colors" title="Toggle RTL/LTR"><i class="fas fa-exchange-alt"></i></button></div>
+    </div>
+
+    <!-- Main 404 Content — Centered -->
+    <main class="flex-1 flex items-center justify-center px-5 py-12">
+        <div class="max-w-3xl w-full text-center">
+
+            <!-- 404 Number + Steaming Cup Illustration -->
+            <div class="fade-in-up delay-1 mb-8">
+                <div class="relative inline-block">
+                    <!-- Big 404 with mug in the middle -->
+                    <h1 class="text-[100px] sm:text-[140px] md:text-[180px] font-bold leading-none tracking-tight" style="color: var(--text-primary); font-weight: 700 !important;">
+                        4<span class="inline-block relative float-anim" style="color: var(--accent-text);">
+                            0
+                            <!-- Steam rising from the "0" -->
+                            <span class="absolute -top-3 left-1/2 -translate-x-1/2 flex gap-1.5 pointer-events-none">
+                                <span class="steam-1 block w-1.5 h-6 rounded-full" style="background: var(--accent); opacity: 0.5;"></span>
+                                <span class="steam-2 block w-1.5 h-6 rounded-full" style="background: var(--accent); opacity: 0.5;"></span>
+                                <span class="steam-3 block w-1.5 h-6 rounded-full" style="background: var(--accent); opacity: 0.5;"></span>
+                            </span>
+                        </span>4
+                    </h1>
+                </div>
+            </div>
+
+            <!-- Icon Badge -->
+            <div class="fade-in-up delay-2 inline-flex items-center gap-2 bg-[var(--hover-bg)] border border-[var(--border-light)] rounded-full px-4 py-1.5 mb-6">
+                <i class="fas fa-exclamation-triangle text-[var(--accent-text)] text-xs"></i>
+                <span class="text-xs font-semibold tracking-wider uppercase" style="color: var(--accent-text);">Error 404 · Page Not Found</span>
+            </div>
+
+            <!-- Heading -->
+            <h2 class="fade-in-up delay-2 text-3xl sm:text-4xl md:text-5xl font-semibold mb-5 leading-tight" style="color: var(--text-primary); font-weight: 500 !important;">
+                This Cup Seems to Be<br>
+                <span style="color: var(--accent-text);">Empty.</span>
+            </h2>
+
+            <!-- Description -->
+            <p class="fade-in-up delay-3 text-base sm:text-lg max-w-xl mx-auto mb-10 leading-relaxed" style="color: var(--text-secondary);">
+                The page you're looking for has been moved, deleted, or never existed. 
+                But don't worry — the kettle is still warm and there's plenty more to explore.
+            </p>
+
+            <!-- CTA Buttons -->
+            <div class="fade-in-up delay-4 flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
+                <a href="index.html" class="btn-primary px-8 py-3.5 text-base font-semibold w-full sm:w-auto">
+                    <i class="fas fa-home mr-2"></i> Back to Home
+                </a>
+                <a href="menu.html" class="btn-outline px-8 py-3.5 text-base font-semibold w-full sm:w-auto">
+                    <i class="fas fa-mug-hot mr-2"></i> Browse Menu
+                </a>
+            </div>
+
+            <!-- Quick Links Row -->
+            <div class="fade-in-up delay-4 pt-8 border-t" style="border-color: var(--border-light);">
+                <p class="text-xs uppercase tracking-widest mb-5" style="color: var(--text-secondary);">Or Jump To</p>
+                <div class="flex flex-wrap items-center justify-center gap-3">
+                    <a href="menu.html" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border text-xs font-medium transition-all hover:border-[var(--accent)] hover:-translate-y-0.5" style="border-color: var(--border-light); background: var(--card-bg); color: var(--text-primary);">
+                        <i class="fas fa-utensils text-[var(--accent-text)]"></i> Menu
+                    </a>
+                    <a href="loyalty.html" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border text-xs font-medium transition-all hover:border-[var(--accent)] hover:-translate-y-0.5" style="border-color: var(--border-light); background: var(--card-bg); color: var(--text-primary);">
+                        <i class="fas fa-star text-[var(--accent-text)]"></i> Loyalty
+                    </a>
+                    <a href="gallery.html" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border text-xs font-medium transition-all hover:border-[var(--accent)] hover:-translate-y-0.5" style="border-color: var(--border-light); background: var(--card-bg); color: var(--text-primary);">
+                        <i class="fas fa-images text-[var(--accent-text)]"></i> Gallery
+                    </a>
+                    <a href="blog.html" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border text-xs font-medium transition-all hover:border-[var(--accent)] hover:-translate-y-0.5" style="border-color: var(--border-light); background: var(--card-bg); color: var(--text-primary);">
+                        <i class="fas fa-newspaper text-[var(--accent-text)]"></i> Blog
+                    </a>
+                    <a href="about.html" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border text-xs font-medium transition-all hover:border-[var(--accent)] hover:-translate-y-0.5" style="border-color: var(--border-light); background: var(--card-bg); color: var(--text-primary);">
+                        <i class="fas fa-heart text-[var(--accent-text)]"></i> About
+                    </a>
+                    <a href="contact.html" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border text-xs font-medium transition-all hover:border-[var(--accent)] hover:-translate-y-0.5" style="border-color: var(--border-light); background: var(--card-bg); color: var(--text-primary);">
+                        <i class="fas fa-envelope text-[var(--accent-text)]"></i> Contact
+                    </a>
+                </div>
+            </div>
+
+            <!-- Footer note -->
+            <p class="text-xs mt-12" style="color: var(--text-secondary);">
+                <i class="fas fa-mug-hot text-[var(--accent-text)] mr-1"></i>
+                Chai House · Savor the moment
+            </p>
+
+        </div>
+    </main>
+
+    <script>
+        (function () {
+            const html = document.documentElement;
+            // Theme toggles
+            const themeBtn = document.getElementById('theme-toggle'), mobileTheme = document.getElementById('mobile-theme-btn');
+            const applyTheme = (theme) => { html.setAttribute('data-theme', theme); localStorage.setItem('theme', theme); document.querySelectorAll('.light-icon').forEach(icon => icon.classList.toggle('hidden', theme === 'dark')); document.querySelectorAll('.dark-icon').forEach(icon => icon.classList.toggle('hidden', theme === 'light')); };
+            const initTheme = () => { const stored = localStorage.getItem('theme'); const prefers = window.matchMedia('(prefers-color-scheme: dark)').matches; applyTheme(stored === 'dark' || (!stored && prefers) ? 'dark' : 'light'); };
+            const toggleTheme = () => { const cur = html.getAttribute('data-theme'); applyTheme(cur === 'light' ? 'dark' : 'light'); };
+            themeBtn?.addEventListener('click', toggleTheme); if (mobileTheme) mobileTheme.addEventListener('click', toggleTheme);
+            initTheme();
+            // RTL
+            const langBtn = document.getElementById('lang-icon'), mobileRtl = document.getElementById('mobile-rtl-btn');
+            const toggleRtl = () => { const isRtl = html.getAttribute('dir') === 'rtl'; html.setAttribute('dir', isRtl ? 'ltr' : 'rtl'); localStorage.setItem('dir', isRtl ? 'ltr' : 'rtl'); };
+            if (langBtn) langBtn.addEventListener('click', toggleRtl);
+            if (mobileRtl) mobileRtl.addEventListener('click', toggleRtl);
+            const savedDir = localStorage.getItem('dir') === 'rtl' ? 'rtl' : 'ltr'; html.setAttribute('dir', savedDir);
+            // dropdowns desktop
+            document.querySelectorAll('.dropdown-wrapper').forEach(drop => {
+                const btn = drop.querySelector('.dropdown-toggle');
+                if (window.innerWidth >= 1280) {
+                    drop.addEventListener('mouseenter', () => drop.classList.add('open'));
+                    drop.addEventListener('mouseleave', () => drop.classList.remove('open'));
+                } else {
+                    btn?.addEventListener('click', (e) => { e.preventDefault(); drop.classList.toggle('open'); });
+                }
+            });
+            document.addEventListener('click', (e) => { if (!e.target.closest('.dropdown-wrapper')) document.querySelectorAll('.dropdown-wrapper').forEach(d => d.classList.remove('open')); });
+            // Mobile drawer
+            const drawer = document.getElementById('mobile-drawer'), backdrop = document.getElementById('drawer-backdrop'), panel = document.getElementById('drawer-panel'), openBtn = document.getElementById('drawer-toggle'), closeBtn = document.getElementById('drawer-close');
+            const openDrawer = () => { drawer.classList.remove('pointer-events-none'); panel.classList.remove('-translate-x-full'); backdrop.classList.add('opacity-100', 'pointer-events-auto'); document.body.style.overflow = 'hidden'; };
+            const closeDrawer = () => { panel.classList.add('-translate-x-full'); backdrop.classList.remove('opacity-100', 'pointer-events-auto'); setTimeout(() => drawer.classList.add('pointer-events-none'), 300); document.body.style.overflow = ''; };
+            openBtn?.addEventListener('click', openDrawer); closeBtn?.addEventListener('click', closeDrawer); backdrop?.addEventListener('click', closeDrawer);
+            document.getElementById('mobile-home-toggle')?.addEventListener('click', () => { document.getElementById('mobile-home-submenu')?.classList.toggle('hidden'); });
+            document.getElementById('mobile-dashboard-toggle')?.addEventListener('click', () => { document.getElementById('mobile-dashboard-submenu')?.classList.toggle('hidden'); });
+            // reveal animation
+            const reveals = document.querySelectorAll('.reveal');
+            const observer = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('active'); }); }, { threshold: 0.15 });
+            reveals.forEach(r => observer.observe(r));
+            // Add active nav based on hash
+            const navLinks = document.querySelectorAll('.nav-link, .dropdown-menu a, #mobile-drawer a');
+            navLinks.forEach(link => { link.addEventListener('click', function (e) { if (this.getAttribute('href')?.startsWith('#')) e.preventDefault(); window.location.hash = this.getAttribute('href')?.slice(1) || ''; }); });
+
+            // Dynamic Active Page Highlighter (Desktop & Mobile)
+            const currentPath = window.location.pathname;
+            let currentPage = currentPath.substring(currentPath.lastIndexOf('/') + 1);
+            if (!currentPage || currentPage === '/') currentPage = 'index.html';
+
+            // 1. Clean slate: clear all hardcoded active classes
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+            document.querySelectorAll('.dropdown-toggle').forEach(link => link.classList.remove('active'));
+            document.querySelectorAll('.dropdown-menu a').forEach(link => link.classList.remove('text-accent', 'font-medium'));
+            
+            const mobileDrawer = document.getElementById('mobile-drawer');
+            if (mobileDrawer) {
+                mobileDrawer.querySelectorAll('a').forEach(link => {
+                    link.classList.remove('active', 'text-accent', 'font-medium');
+                });
+                mobileDrawer.querySelectorAll('button').forEach(btn => {
+                    btn.classList.remove('text-accent');
+                });
+                // Reset submenus to hidden
+                const dbSub = document.getElementById('mobile-dashboard-submenu');
+                if (dbSub) dbSub.classList.add('hidden');
+                const homeSub = document.getElementById('mobile-home-submenu');
+                if (homeSub) homeSub.classList.add('hidden');
+            }
+
+            // 2. Desktop Highlighting
+            let desktopMatched = false;
+            document.querySelectorAll('.dropdown-menu a').forEach(link => {
+                const href = link.getAttribute('href');
+                if (href === currentPage) {
+                    link.classList.add('text-accent', 'font-medium');
+                    const wrapper = link.closest('.dropdown-wrapper');
+                    if (wrapper) {
+                        const toggle = wrapper.querySelector('.dropdown-toggle');
+                        if (toggle) toggle.classList.add('active');
+                    }
+                    desktopMatched = true;
+                }
+            });
+
+            if (!desktopMatched) {
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    const wrapper = link.closest('.dropdown-wrapper');
+                    if (!wrapper) {
+                        const href = link.getAttribute('href');
+                        if (href === currentPage) {
+                            link.classList.add('active');
+                        }
+                    }
+                });
+            }
+
+            // 3. Mobile Highlighting
+            if (mobileDrawer) {
+                let mobileMatched = false;
+                mobileDrawer.querySelectorAll('a').forEach(link => {
+                    const href = link.getAttribute('href');
+                    if (href === currentPage) {
+                        link.classList.add('active');
+                        if (!link.classList.contains('rounded-full')) {
+                            link.classList.add('text-accent', 'font-medium');
+                        }
+                        
+                        // Handle parents/submenus
+                        const homeSubmenu = document.getElementById('mobile-home-submenu');
+                        const dashboardSubmenu = document.getElementById('mobile-dashboard-submenu');
+                        
+                        if (homeSubmenu && homeSubmenu.contains(link)) {
+                            const homeToggle = document.getElementById('mobile-home-toggle');
+                            if (homeToggle) homeToggle.classList.add('text-accent');
+                            homeSubmenu.classList.remove('hidden');
+                        } else if (dashboardSubmenu && dashboardSubmenu.contains(link)) {
+                            const dashboardToggle = document.getElementById('mobile-dashboard-toggle');
+                            if (dashboardToggle) dashboardToggle.classList.add('text-accent');
+                            dashboardSubmenu.classList.remove('hidden');
+                        }
+                        mobileMatched = true;
+                    }
+                });
+
+                // Fallback for index.html / home2.html / empty path
+                if (!mobileMatched && (currentPage === 'index.html' || currentPage === 'home2.html')) {
+                    const homeToggle = document.getElementById('mobile-home-toggle');
+                    if (homeToggle) homeToggle.classList.add('text-accent');
+                    const homeSubmenu = document.getElementById('mobile-home-submenu');
+                    if (homeSubmenu) homeSubmenu.classList.remove('hidden');
+                    
+                    const matchingLink = mobileDrawer.querySelector(`a[href="${currentPage}"]`);
+                    if (matchingLink) {
+                        matchingLink.classList.add('active', 'text-accent', 'font-medium');
+                    }
+                }
+            }
+        })();
+    </script>
+</body>
+
+</html>
+
+
