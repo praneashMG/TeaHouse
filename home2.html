@@ -213,7 +213,7 @@
             padding: 0.3rem 0.8rem;
             font-size: 0.75rem;
             font-weight: 600;
-            box-shadow: 0 2px 10px rgba(139, 92, 246, 0.3);
+            box-shadow: 0 2px 10px rgba(216, 67, 21, 0.25);
         }
 
         .vehicle-track {
@@ -340,39 +340,79 @@
         }
     </style>
     <style id="cta-improvements">
-        /* Primary CTA Highlights */
-        .btn-primary { white-space: nowrap;
-            box-shadow: 0 4px 12px 0 rgba(139, 92, 246, 0.4);
+        /* Primary CTA Consistent Styling Across Entire Website */
+        .btn-primary {
+            white-space: nowrap;
+            background: var(--accent) !important;
             color: #ffffff !important;
             font-weight: 600 !important;
-        }
-        html[data-theme='dark'] .btn-primary { white-space: nowrap;
-            box-shadow: 0 4px 12px 0 rgba(139, 92, 246, 0.3);
-            color: #ffffff !important; /* High contrast in dark mode */
-            font-weight: 600 !important;
+            border-radius: 9999px !important;
+            box-shadow: 0 4px 14px 0 rgba(216, 67, 21, 0.38) !important;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
         
-        /* Hover Color Consistency & Contrast */
         .btn-primary:hover {
-            background-color: var(--accent-dark) !important;
-            transform: translateY(-1px) scale(1.02);
-            box-shadow: 0 6px 16px 0 rgba(139, 92, 246, 0.5);
+            background: var(--accent-dark) !important;
+            transform: translateY(-2px) scale(1.02) !important;
+            box-shadow: 0 8px 22px 0 rgba(216, 67, 21, 0.48) !important;
+            color: #ffffff !important;
         }
+
+        .btn-primary:active {
+            transform: translateY(0) scale(0.99) !important;
+            box-shadow: 0 2px 8px 0 rgba(216, 67, 21, 0.35) !important;
+        }
+
+        html[data-theme='dark'] .btn-primary {
+            background: var(--accent) !important;
+            color: #ffffff !important;
+            box-shadow: 0 4px 14px 0 rgba(255, 112, 67, 0.35) !important;
+        }
+
         html[data-theme='dark'] .btn-primary:hover {
-            box-shadow: 0 6px 16px 0 rgba(139, 92, 246, 0.4);
+            background: var(--accent-dark) !important;
+            box-shadow: 0 8px 22px 0 rgba(255, 112, 67, 0.45) !important;
+            color: #ffffff !important;
         }
-        
-        .btn-outline { white-space: nowrap;
+
+        /* Secondary Outline CTA */
+        .btn-outline {
+            white-space: nowrap;
+            background: transparent !important;
+            color: var(--accent-text) !important;
+            border: 1.5px solid var(--accent-text) !important;
+            font-weight: 600 !important;
+            border-radius: 9999px !important;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-outline:hover {
+            background: var(--accent) !important;
+            border-color: var(--accent) !important;
+            color: #ffffff !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 6px 16px 0 rgba(216, 67, 21, 0.3) !important;
+        }
+
+        html[data-theme='dark'] .btn-outline {
             color: var(--accent-text) !important;
             border-color: var(--accent-text) !important;
         }
-        .btn-outline:hover {
-            background-color: var(--accent) !important;
-            color: #ffffff !important;
-            transform: translateY(-1px);
-        }
+
         html[data-theme='dark'] .btn-outline:hover {
-            color: #ffffff !important; /* High contrast in dark mode */
+            background: var(--accent) !important;
+            color: #ffffff !important;
+            box-shadow: 0 6px 16px 0 rgba(255, 112, 67, 0.3) !important;
         }
 
         /* Align CTA buttons consistently inside cards/grids */
@@ -425,12 +465,24 @@
 <body class="antialiased">
 
     <!-- Fixed Header -->
+        <!-- Fixed Header -->
     <header class="fixed top-0 left-0 w-full z-50 pt-3" id="main-header">
         <nav
             class="max-w-7xl mx-auto px-5 py-3 rounded-2xl flex items-center justify-between backdrop-blur-sm border border-border">
-            <a href="index.html" class="text-2xl font-bold tracking-tight text-accent flex items-center gap-2" style="font-weight: 700 !important;"><i class="fa-solid fa-mug-hot"></i> Chai House</a>
+            <a href="index.html" class="flex items-center gap-3 group transition-transform duration-300 hover:scale-[1.02]">
+                <div class="relative w-10 h-10 rounded-xl bg-gradient-to-br from-[var(--accent)] to-[var(--accent-dark)] flex items-center justify-center shadow-md shadow-[var(--accent)]/30 text-white transition-all duration-300 group-hover:shadow-lg group-hover:shadow-[var(--accent)]/40">
+                    <i class="fa-solid fa-mug-hot text-lg"></i>
+                    <span class="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-amber-400 border-2 border-[var(--card-bg)] flex items-center justify-center">
+                        <i class="fa-solid fa-leaf text-[7px] text-amber-900"></i>
+                    </span>
+                </div>
+                <div class="flex flex-col text-left">
+                    <span class="text-xl font-bold tracking-tight leading-none text-accent" style="font-weight: 800 !important; letter-spacing: -0.02em;">CHAI HOUSE</span>
+                    <span class="text-[9px] uppercase tracking-widest text-secondary font-semibold opacity-75 mt-0.5">Specialty Tea &amp; Brews</span>
+                </div>
+            </a>
             <!-- Desktop Center Nav -->
-            <div class="hidden xl:flex items-center space-x-8 rtl:space-x-reverse text-sm font-medium">
+            <div class="hidden xl:flex items-center space-x-7 rtl:space-x-reverse text-sm font-medium">
                 <div class="dropdown-wrapper">
                     <button class="nav-link dropdown-toggle inline-flex items-center gap-1 active">
                         <span>Home</span><i
@@ -449,7 +501,7 @@
                 <a href="about.html" class="nav-link">About</a>
                 <a href="contact.html" class="nav-link">Contact</a>
             </div>
-            <div class="hidden xl:flex items-center gap-4">
+            <div class="hidden xl:flex items-center gap-3">
                 <button id="theme-toggle" class="text-secondary hover:text-accent transition-colors p-2" title="Toggle Dark/Light Mode">
                     <i class="fas fa-moon light-icon"></i>
                     <i class="fas fa-sun dark-icon hidden"></i>
@@ -457,20 +509,47 @@
                 <button id="lang-icon" class="text-secondary hover:text-accent transition-colors p-2" title="Toggle RTL/LTR">
                     <i class="fas fa-exchange-alt"></i>
                 </button>
-                <a href="menu.html" class="btn-primary px-6 py-2 text-sm font-medium"><i class="fas fa-mug-hot mr-1"></i> Order Now</a>
+                <!-- Auth Actions -->
+                <div class="flex items-center gap-2 pl-1 border-l border-border rtl:border-l-0 rtl:border-r rtl:pl-0 rtl:pr-1">
+                    <button id="nav-login-btn" type="button" class="px-3.5 py-1.5 text-xs font-semibold rounded-full text-secondary hover:text-accent transition-all duration-200 hover:bg-accent/10 flex items-center gap-1.5 cursor-pointer">
+                        <i class="far fa-user text-xs"></i>
+                        <span>Login</span>
+                    </button>
+                    <button id="nav-signup-btn" type="button" class="btn-outline px-4 py-1.5 text-xs font-semibold rounded-full transition-all duration-200 flex items-center gap-1.5 shadow-sm cursor-pointer">
+                        <i class="fas fa-user-plus text-xs"></i>
+                        <span>Sign Up</span>
+                    </button>
+                </div>
+                <a href="menu.html" class="btn-primary px-5 py-2 text-xs font-semibold rounded-full shadow-sm flex items-center gap-1.5"><i class="fas fa-mug-hot"></i><span>Order Now</span></a>
             </div>
-            <div class="xl:hidden flex items-center gap-3">
-                
-                <button id="drawer-toggle" class="p-2 text-accent"><i class="fas fa-bars text-2xl"></i></button>
+            <div class="xl:hidden flex items-center gap-2">
+                <!-- Mobile visible Login button for quick access -->
+                <button id="mobile-quick-login-btn" type="button" class="px-3 py-1 text-xs font-semibold rounded-full border border-border text-accent hover:bg-accent/10 transition-colors flex items-center gap-1">
+                    <i class="far fa-user"></i>
+                    <span>Login</span>
+                </button>
+                <button id="drawer-toggle" class="p-2 text-accent" aria-label="Open Navigation"><i class="fas fa-bars text-xl"></i></button>
             </div>
         </nav>
     </header>
 
     <!-- Mobile Navigation Drawer -->
+        <!-- Mobile Navigation Drawer -->
     <div id="mobile-drawer" class="fixed inset-0 z-[100] pointer-events-none">
         <div id="drawer-backdrop" class="absolute inset-0 bg-black/50 opacity-0 transition pointer-events-none"></div>
         <div id="drawer-panel" class="absolute top-0 left-0 w-80 h-full bg-card shadow-2xl transform -translate-x-full transition-transform duration-300 p-6 overflow-y-auto">
-            <div class="flex justify-between items-center border-b border-border pb-4"><a href="index.html" class="text-2xl font-bold tracking-tight text-accent flex items-center gap-2" style="font-weight: 700 !important;; color: var(--accent-text) !important;"><i class="fa-solid fa-mug-hot"></i> Chai House</a><button id="drawer-close"><i class="fas fa-times text-xl"></i></button></div>
+            <div class="flex justify-between items-center border-b border-border pb-4">
+                <a href="index.html" class="flex items-center gap-2.5">
+                    <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-[var(--accent)] to-[var(--accent-dark)] flex items-center justify-center text-white shadow-md">
+                        <i class="fa-solid fa-mug-hot text-sm"></i>
+                    </div>
+                    <div class="flex flex-col text-left">
+                        <span class="text-lg font-bold tracking-tight leading-none text-accent" style="font-weight: 800 !important;">CHAI HOUSE</span>
+                        <span class="text-[9px] uppercase tracking-wider text-secondary font-semibold opacity-75">Specialty Tea</span>
+                    </div>
+                </a>
+                <button id="drawer-close" aria-label="Close menu" class="p-2 text-secondary hover:text-accent transition-colors"><i class="fas fa-times text-xl"></i></button>
+            </div>
             <nav class="flex flex-col gap-3 mt-6">
                 <div>
                     <button id="mobile-home-toggle" class="flex w-full justify-between items-center py-2 font-medium text-accent">Home <i class="fas fa-chevron-down text-xs"></i></button>
@@ -486,7 +565,23 @@
                 <a href="about.html" class="py-2 font-medium">About</a>
                 <a href="contact.html" class="py-2 font-medium">Contact</a>
                 
-                <div class="pt-4 border-t border-border flex gap-3 mt-4">                    <a href="menu.html" class="flex-1 text-center bg-accent rounded-full py-2 text-white font-medium"><i class="fas fa-mug-hot mr-1"></i> Order Now</a>
+                <!-- Auth options in mobile drawer -->
+                <div class="pt-4 border-t border-border flex flex-col gap-2.5 mt-2">
+                    <p class="text-xs uppercase font-semibold text-secondary tracking-wider mb-1">Account</p>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button id="mobile-drawer-login-btn" type="button" class="btn-outline py-2 text-xs font-semibold rounded-full flex items-center justify-center gap-1.5">
+                            <i class="far fa-user text-xs"></i>
+                            <span>Login</span>
+                        </button>
+                        <button id="mobile-drawer-signup-btn" type="button" class="bg-accent/15 border border-accent text-accent py-2 text-xs font-semibold rounded-full flex items-center justify-center gap-1.5 hover:bg-accent hover:text-white transition-colors">
+                            <i class="fas fa-user-plus text-xs"></i>
+                            <span>Sign Up</span>
+                        </button>
+                    </div>
+                    <a href="menu.html" class="btn-primary w-full text-center py-2.5 text-xs font-semibold rounded-full mt-2 flex items-center justify-center gap-1.5">
+                        <i class="fas fa-mug-hot"></i>
+                        <span>Order Now</span>
+                    </a>
                 </div>
                 <div class="flex justify-around mt-6 pt-2">
                     <button id="mobile-theme-btn" class="p-2 text-secondary hover:text-accent transition-colors">
@@ -501,93 +596,211 @@
         </div>
     </div>
 
+    <!-- Auth Modal (Login / Sign Up) -->
+    <div id="auth-modal" class="fixed inset-0 z-[120] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="relative w-full max-w-md bg-card rounded-2xl shadow-2xl border border-border p-6 sm:p-8 transform scale-95 transition-all duration-300 overflow-hidden" id="auth-modal-card">
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between pb-4 border-b border-border">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-[var(--accent)] to-[var(--accent-dark)] flex items-center justify-center text-white shadow-sm">
+                        <i class="fa-solid fa-mug-hot text-xs"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-base font-bold text-accent leading-none" style="font-weight: 700 !important;">Chai House</h3>
+                        <p class="text-[10px] text-secondary tracking-wider uppercase font-semibold mt-0.5">Member Portal</p>
+                    </div>
+                </div>
+                <button id="auth-modal-close" class="w-8 h-8 rounded-full flex items-center justify-center text-secondary hover:text-accent hover:bg-accent/10 transition-colors" aria-label="Close modal">
+                    <i class="fas fa-times text-base"></i>
+                </button>
+            </div>
+
+            <!-- Tab Switcher -->
+            <div class="flex border-b border-border mt-4 mb-5">
+                <button id="tab-login" class="flex-1 pb-2.5 text-xs font-semibold text-accent border-b-2 border-accent transition-colors">Login</button>
+                <button id="tab-signup" class="flex-1 pb-2.5 text-xs font-semibold text-secondary hover:text-accent border-b-2 border-transparent transition-colors">Create Account</button>
+            </div>
+
+            <!-- Login Form -->
+            <form id="form-login" class="space-y-4" onsubmit="event.preventDefault(); alert('Login feature demo: Welcome back!'); document.getElementById('auth-modal-close').click();">
+                <div>
+                    <label class="block text-xs font-medium text-secondary mb-1">Email Address</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-secondary/60"><i class="far fa-envelope text-xs"></i></span>
+                        <input type="email" required placeholder="you@example.com" class="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-border bg-transparent text-[var(--text-primary)] focus:outline-none focus:border-accent transition-colors">
+                    </div>
+                </div>
+                <div>
+                    <div class="flex justify-between items-center mb-1">
+                        <label class="block text-xs font-medium text-secondary">Password</label>
+                        <a href="#" onclick="event.preventDefault(); alert('Password reset instructions sent!');" class="text-[11px] text-accent hover:underline">Forgot?</a>
+                    </div>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-secondary/60"><i class="fas fa-lock text-xs"></i></span>
+                        <input type="password" required placeholder="••••••••" class="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-border bg-transparent text-[var(--text-primary)] focus:outline-none focus:border-accent transition-colors">
+                    </div>
+                </div>
+                <div class="flex items-center gap-2">
+                    <input type="checkbox" id="remember-me" class="rounded border-border accent-[var(--accent)] text-accent focus:ring-0">
+                    <label for="remember-me" class="text-xs text-secondary">Remember me on this device</label>
+                </div>
+                <button type="submit" class="btn-primary w-full py-2.5 rounded-full text-xs font-semibold flex items-center justify-center gap-2 shadow-md cursor-pointer">
+                    <i class="fas fa-arrow-right-to-bracket"></i>
+                    <span>Log In to Chai House</span>
+                </button>
+                <p class="text-[11px] text-center text-secondary">
+                    Don't have an account? <a href="#" id="switch-to-signup" class="text-accent font-semibold hover:underline">Sign up free</a>
+                </p>
+            </form>
+
+            <!-- Sign Up Form -->
+            <form id="form-signup" class="space-y-3.5 hidden" onsubmit="event.preventDefault(); alert('Account created successfully! Welcome to Chai House Rewards.'); document.getElementById('auth-modal-close').click();">
+                <div>
+                    <label class="block text-xs font-medium text-secondary mb-1">Full Name</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-secondary/60"><i class="far fa-user text-xs"></i></span>
+                        <input type="text" required placeholder="Aarav Sharma" class="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-border bg-transparent text-[var(--text-primary)] focus:outline-none focus:border-accent transition-colors">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-secondary mb-1">Email Address</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-secondary/60"><i class="far fa-envelope text-xs"></i></span>
+                        <input type="email" required placeholder="you@example.com" class="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-border bg-transparent text-[var(--text-primary)] focus:outline-none focus:border-accent transition-colors">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-secondary mb-1">Create Password</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-secondary/60"><i class="fas fa-lock text-xs"></i></span>
+                        <input type="password" required placeholder="At least 6 characters" minlength="6" class="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-border bg-transparent text-[var(--text-primary)] focus:outline-none focus:border-accent transition-colors">
+                    </div>
+                </div>
+                <div class="flex items-start gap-2 pt-1">
+                    <input type="checkbox" id="terms" required class="mt-0.5 rounded border-border accent-[var(--accent)] text-accent focus:ring-0">
+                    <label for="terms" class="text-[11px] text-secondary leading-tight">I agree to the <a href="about.html" class="text-accent underline">Terms</a> &amp; join Chai Rewards loyalty club.</label>
+                </div>
+                <button type="submit" class="btn-primary w-full py-2.5 rounded-full text-xs font-semibold flex items-center justify-center gap-2 shadow-md cursor-pointer">
+                    <i class="fas fa-user-plus"></i>
+                    <span>Create Free Account</span>
+                </button>
+                <p class="text-[11px] text-center text-secondary">
+                    Already have an account? <a href="#" id="switch-to-login" class="text-accent font-semibold hover:underline">Log in here</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
   <main class="pt-24">
-<!-- ================= SECTION 1: HERO — SPLIT LAYOUT (LEFT CONTENT / RIGHT IMAGE) ================= -->
-<section class="relative pt-8 md:pt-12 pb-20" style="background: var(--bg-body);">
-    <div class="max-w-7xl mx-auto px-5 w-full">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-            <!-- LEFT: Content -->
-            <div class="order-2 lg:order-1 text-center lg:text-left">
-                <div class="inline-flex items-center gap-2 bg-[var(--hover-bg)] border border-[var(--border-light)] rounded-full px-4 py-1.5 mb-6">
-                    <span class="relative flex h-2 w-2">
+<!-- ================= SECTION 1: HERO — FULL-WIDTH ATMOSPHERIC BACKGROUND ================= -->
+<section class="relative min-h-[580px] lg:min-h-[660px] flex items-center py-24 md:py-32 overflow-hidden">
+    <!-- Large, Full-Width Background Image with Atmospheric Gradient Overlay -->
+    <div class="absolute inset-0 z-0">
+        <img src="assets/b1.jpg" 
+             alt="Fresh street chai authentic stall atmosphere" 
+             class="w-full h-full object-cover object-center transform scale-105 transition-transform duration-1000 ease-out">
+        <!-- Deep rich multi-layer gradient overlay for pristine typography contrast -->
+        <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-black/75 to-black/50"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/40"></div>
+    </div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-5 w-full">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+            <!-- Main Content (Left Col 7) -->
+            <div class="lg:col-span-7 text-center lg:text-left">
+                <!-- Status Badge -->
+                <div class="inline-flex items-center gap-2.5 bg-black/40 backdrop-blur-md border border-white/20 rounded-full px-4 py-1.5 mb-6 shadow-lg">
+                    <span class="relative flex h-2.5 w-2.5">
                         <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--accent)] opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-2 w-2 bg-[var(--accent)]"></span>
+                        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-[var(--accent)]"></span>
                     </span>
-                    <span class="text-xs font-semibold tracking-wider uppercase" style="color: var(--accent-text);">Now Brewing Fresh</span>
+                    <span class="text-xs font-semibold tracking-wider uppercase text-amber-200">Now Brewing Fresh At Stall</span>
                 </div>
 
-                <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-6xl xl:text-7xl font-semibold leading-[1.05] mb-6" style="color: var(--text-primary); font-weight: 600 !important;">
+                <h1 class="text-4xl sm:text-5xl md:text-6xl xl:text-7xl font-bold leading-[1.08] mb-6 text-white" style="font-weight: 700 !important; letter-spacing: -0.02em;">
                     The Street-Side<br>
-                    <span style="color: var(--accent-text);">Chai Experience</span><br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-[var(--accent)] via-amber-400 to-orange-300">Chai Experience</span><br>
                     You Crave.
                 </h1>
 
-                <p class="text-base sm:text-lg max-w-xl mx-auto lg:mx-0 mb-8 leading-relaxed" style="color: var(--text-secondary);">
-                    Bold, aromatic, and brewed fresh at our stall every single day. From classic kadak chai to experimental infusions — grab your cup and join the ritual.
+                <p class="text-base sm:text-lg max-w-xl mx-auto lg:mx-0 mb-8 leading-relaxed text-slate-200 font-normal">
+                    Bold, aromatic, and brewed fresh at our street-side stall every single day. From classic kadak masala to fragrant cardamom and ginger infusions — grab your steaming kulhad and join the ritual.
                 </p>
 
                 <!-- Quick Stats -->
-                <div class="flex flex-wrap items-center justify-center lg:justify-start gap-6 sm:gap-8 mb-8">
+                <div class="flex flex-wrap items-center justify-center lg:justify-start gap-6 sm:gap-8 mb-9 bg-black/35 backdrop-blur-md border border-white/10 rounded-2xl p-4 sm:p-5 w-fit mx-auto lg:mx-0">
                     <div class="text-center lg:text-left">
-                        <div class="text-2xl sm:text-3xl font-bold" style="color: var(--accent-text);">100%</div>
-                        <p class="text-xs uppercase tracking-wider" style="color: var(--text-secondary);">Fresh Daily</p>
+                        <div class="text-2xl sm:text-3xl font-extrabold text-[var(--accent)]">100%</div>
+                        <p class="text-[11px] font-medium uppercase tracking-wider text-slate-300">Fresh Daily</p>
                     </div>
-                    <div class="w-px h-10" style="background: var(--border-light);"></div>
+                    <div class="w-px h-10 bg-white/20"></div>
                     <div class="text-center lg:text-left">
-                        <div class="text-2xl sm:text-3xl font-bold" style="color: var(--accent-text);">₹20</div>
-                        <p class="text-xs uppercase tracking-wider" style="color: var(--text-secondary);">Starting At</p>
+                        <div class="text-2xl sm:text-3xl font-extrabold text-amber-400">₹20</div>
+                        <p class="text-[11px] font-medium uppercase tracking-wider text-slate-300">Starting At</p>
                     </div>
-                    <div class="w-px h-10" style="background: var(--border-light);"></div>
+                    <div class="w-px h-10 bg-white/20"></div>
                     <div class="text-center lg:text-left">
-                        <div class="text-2xl sm:text-3xl font-bold" style="color: var(--accent-text);">5 min</div>
-                        <p class="text-xs uppercase tracking-wider" style="color: var(--text-secondary);">Serve Time</p>
+                        <div class="text-2xl sm:text-3xl font-extrabold text-emerald-400">&lt; 5m</div>
+                        <p class="text-[11px] font-medium uppercase tracking-wider text-slate-300">Serve Time</p>
                     </div>
                 </div>
 
                 <!-- CTA Buttons -->
                 <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
-                    <a href="menu.html" class="btn-primary px-8 py-3.5 text-base font-semibold w-full sm:w-auto">
+                    <a href="menu.html" class="btn-primary px-8 py-3.5 text-base font-semibold w-full sm:w-auto shadow-xl">
                         <i class="fas fa-mug-hot mr-2"></i> See Today's Brew
                     </a>
-                    <a href="loyalty.html" class="btn-outline px-8 py-3.5 text-base font-semibold w-full sm:w-auto">
-                        <i class="fas fa-star mr-2"></i> Loyalty Card
+                    <a href="loyalty.html" class="btn-outline px-8 py-3.5 text-base font-semibold w-full sm:w-auto border-white/30 text-white hover:bg-white/15 hover:border-white">
+                        <i class="fas fa-star mr-2 text-amber-400"></i> Loyalty Card
                     </a>
                 </div>
             </div>
 
-            <!-- RIGHT: Image -->
-            <div class="order-1 lg:order-2 relative">
-                <div class="relative rounded-3xl overflow-hidden h-[320px] sm:h-[420px] lg:h-[520px] shadow-2xl">
-                    <img src="assets/b1.jpg" 
-                         alt="Fresh chai being poured at a street stall" 
-                         class="w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
+            <!-- Floating Hero Badges (Right Col 5) -->
+            <div class="lg:col-span-5 hidden lg:flex flex-col gap-4 pl-4 xl:pl-10">
+                <!-- Live Rating Badge Card -->
+                <div class="bg-black/55 backdrop-blur-md border border-white/15 rounded-2xl p-5 shadow-2xl text-white transform hover:translate-x-1 transition-transform">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center gap-1.5 text-amber-400">
+                            <i class="fas fa-star text-sm"></i>
+                            <i class="fas fa-star text-sm"></i>
+                            <i class="fas fa-star text-sm"></i>
+                            <i class="fas fa-star text-sm"></i>
+                            <i class="fas fa-star text-sm"></i>
+                        </div>
+                        <span class="text-xs font-bold text-amber-300 bg-amber-500/20 px-2.5 py-0.5 rounded-full border border-amber-400/30">Top Rated</span>
+                    </div>
+                    <div class="flex items-baseline gap-2">
+                        <span class="text-3xl font-bold">4.9</span>
+                        <span class="text-slate-300 text-sm font-medium">/ 5.0 (2,400+ regular reviews)</span>
+                    </div>
+                    <p class="text-xs text-slate-300 mt-1">"The best authentic kadak masala chai anywhere in the city."</p>
                 </div>
 
-                <!-- Floating Card 1: Rating -->
-                <div class="absolute top-6 -left-4 sm:-left-8 bg-[var(--card-bg)] border border-[var(--border-light)] rounded-2xl p-4 shadow-xl backdrop-blur-sm hidden sm:block">
-                    <div class="flex items-center gap-1 mb-1">
-                        <i class="fas fa-star rating-star text-sm"></i>
-                        <i class="fas fa-star rating-star text-sm"></i>
-                        <i class="fas fa-star rating-star text-sm"></i>
-                        <i class="fas fa-star rating-star text-sm"></i>
-                        <i class="fas fa-star rating-star text-sm"></i>
+                <!-- Live Stall Status Badge Card -->
+                <div class="bg-black/55 backdrop-blur-md border border-white/15 rounded-2xl p-5 shadow-2xl text-white flex items-center gap-4 transform hover:translate-x-1 transition-transform">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-700 flex items-center justify-center text-white shadow-lg flex-shrink-0">
+                        <i class="fas fa-store text-lg"></i>
                     </div>
-                    <p class="text-xs font-semibold" style="color: var(--text-primary);">4.9 / 5.0</p>
-                    <p class="text-[10px]" style="color: var(--text-secondary);">2,400+ reviews</p>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                            <p class="text-sm font-bold text-white uppercase tracking-wider">Stall is Brewing Open</p>
+                        </div>
+                        <p class="text-xs text-slate-300 mt-0.5">Monday to Sunday, 7:00 AM – 9:00 PM</p>
+                        <p class="text-[11px] text-amber-300 mt-0.5"><i class="fas fa-map-pin mr-1"></i> 42 Brew Street, Chai District</p>
+                    </div>
                 </div>
 
-                <!-- Floating Card 2: Live Status -->
-                <div class="absolute bottom-6 -right-4 sm:-right-8 bg-[var(--card-bg)] border border-[var(--border-light)] rounded-2xl p-4 shadow-xl backdrop-blur-sm hidden sm:block">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-[var(--hover-bg)] flex items-center justify-center">
-                            <i class="fas fa-fire text-[var(--accent-text)]"></i>
-                        </div>
-                        <div>
-                            <p class="text-xs font-semibold" style="color: var(--text-primary);">Stall is Open</p>
-                            <p class="text-[10px]" style="color: var(--text-secondary);">7am – 9pm daily</p>
-                        </div>
+                <!-- Signature Kulhad Feature Pill -->
+                <div class="bg-black/55 backdrop-blur-md border border-white/15 rounded-2xl p-4 shadow-2xl text-white flex items-center gap-3.5">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[var(--accent)] to-[var(--accent-dark)] flex items-center justify-center text-white shadow-md flex-shrink-0">
+                        <i class="fas fa-award text-base"></i>
                     </div>
+                    <p class="text-xs text-slate-200">
+                        <strong class="text-white block font-semibold">100% Traditional Clay Kulhad</strong>
+                        Eco-friendly earthenware adds earthy aroma to every sip.
+                    </p>
                 </div>
             </div>
         </div>
@@ -726,8 +939,12 @@
             <!-- Small Card: Top Right -->
             <div class="rounded-2xl p-6 md:p-8 border border-[var(--border-light)] bg-[var(--card-bg)] flex flex-col justify-between min-h-[240px]">
                 <div>
-                    <div class="w-12 h-12 rounded-xl bg-[var(--hover-bg)] flex items-center justify-center mb-5">
-                        <i class="fas fa-bolt text-[var(--accent-text)] text-xl"></i>
+                    <div class="relative h-32 rounded-xl overflow-hidden mb-4 shadow-sm group">
+                        <img src="assets/bb2.jpg" alt="Lightning fast chai service" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                        <span class="absolute bottom-2 left-2 text-white text-[11px] font-semibold flex items-center gap-1">
+                            <i class="fas fa-bolt text-amber-400"></i> Fresh in 5 Mins
+                        </span>
                     </div>
                     <h3 class="text-xl font-semibold mb-3" style="color: var(--text-primary);">Lightning Fast</h3>
                     <p class="text-sm leading-relaxed" style="color: var(--text-secondary);">
@@ -743,8 +960,12 @@
             <!-- Small Card: Bottom Right -->
             <div class="rounded-2xl p-6 md:p-8 border border-[var(--border-light)] bg-[var(--card-bg)] flex flex-col justify-between min-h-[240px]">
                 <div>
-                    <div class="w-12 h-12 rounded-xl bg-[var(--hover-bg)] flex items-center justify-center mb-5">
-                        <i class="fas fa-wallet text-[var(--accent-text)] text-xl"></i>
+                    <div class="relative h-32 rounded-xl overflow-hidden mb-4 shadow-sm group">
+                        <img src="assets/bb4.jpg" alt="Affordable street chai price" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                        <span class="absolute bottom-2 left-2 text-white text-[11px] font-semibold flex items-center gap-1">
+                            <i class="fas fa-tag text-emerald-400"></i> From ₹20
+                        </span>
                     </div>
                     <h3 class="text-xl font-semibold mb-3" style="color: var(--text-primary);">Easy on the Pocket</h3>
                     <p class="text-sm leading-relaxed" style="color: var(--text-secondary);">
@@ -1004,7 +1225,15 @@
         style="background: var(--footer-bg); color: var(--footer-text);">
         <div class="max-w-7xl mx-auto px-5 grid grid-cols-2 md:grid-cols-6 lg:grid-cols-5 gap-8">
             <div class="col-span-2 md:col-span-6 lg:col-span-1">
-                  <a href="index.html" class="text-2xl font-bold tracking-tight text-accent flex items-center gap-2" style="font-weight: 700 !important;"><i class="fa-solid fa-mug-hot"></i> Chai House</a>
+                  <a href="index.html" class="inline-flex items-center gap-3 group">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[var(--accent)] to-[var(--accent-dark)] flex items-center justify-center text-white shadow-md">
+                        <i class="fa-solid fa-mug-hot text-lg"></i>
+                    </div>
+                    <div class="flex flex-col text-left">
+                        <span class="text-xl font-bold tracking-tight leading-none text-accent" style="font-weight: 800 !important;">CHAI HOUSE</span>
+                        <span class="text-[9px] uppercase tracking-widest text-slate-400 font-semibold opacity-80 mt-0.5">Specialty Tea &amp; Brews</span>
+                    </div>
+                </a>
                 <p class="text-xs text-slate-400 mt-3 leading-relaxed">
                     Cozy, aromatic tea house offering signature chai blends, specialty teas, and a warm atmosphere. Come sip and savor!
                 </p>
@@ -1108,6 +1337,100 @@
             const navLinks = document.querySelectorAll('.nav-link, .dropdown-menu a, #mobile-drawer a');
             navLinks.forEach(link => { link.addEventListener('click', function (e) { if (this.getAttribute('href')?.startsWith('#')) e.preventDefault(); window.location.hash = this.getAttribute('href')?.slice(1) || ''; }); });
 
+            
+            // ==================== AUTH MODAL HANDLER ====================
+            const authModal = document.getElementById('auth-modal');
+            const authCard = document.getElementById('auth-modal-card');
+            const authClose = document.getElementById('auth-modal-close');
+            const tabLogin = document.getElementById('tab-login');
+            const tabSignup = document.getElementById('tab-signup');
+            const formLogin = document.getElementById('form-login');
+            const formSignup = document.getElementById('form-signup');
+            const switchToSignup = document.getElementById('switch-to-signup');
+            const switchToLogin = document.getElementById('switch-to-login');
+
+            const setAuthMode = (mode) => {
+                if (mode === 'signup') {
+                    if (tabSignup) {
+                        tabSignup.className = 'flex-1 pb-2.5 text-xs font-semibold text-accent border-b-2 border-accent transition-colors';
+                    }
+                    if (tabLogin) {
+                        tabLogin.className = 'flex-1 pb-2.5 text-xs font-semibold text-secondary hover:text-accent border-b-2 border-transparent transition-colors';
+                    }
+                    if (formLogin) formLogin.classList.add('hidden');
+                    if (formSignup) formSignup.classList.remove('hidden');
+                } else {
+                    if (tabLogin) {
+                        tabLogin.className = 'flex-1 pb-2.5 text-xs font-semibold text-accent border-b-2 border-accent transition-colors';
+                    }
+                    if (tabSignup) {
+                        tabSignup.className = 'flex-1 pb-2.5 text-xs font-semibold text-secondary hover:text-accent border-b-2 border-transparent transition-colors';
+                    }
+                    if (formSignup) formSignup.classList.add('hidden');
+                    if (formLogin) formLogin.classList.remove('hidden');
+                }
+            };
+
+            const openAuthModal = (mode = 'login') => {
+                setAuthMode(mode);
+                if (authModal) {
+                    authModal.classList.remove('pointer-events-none');
+                    authModal.classList.remove('opacity-0');
+                    authModal.classList.add('opacity-100');
+                }
+                if (authCard) {
+                    authCard.classList.remove('scale-95');
+                    authCard.classList.add('scale-100');
+                }
+                document.body.style.overflow = 'hidden';
+            };
+
+            const closeAuthModal = () => {
+                if (authCard) {
+                    authCard.classList.remove('scale-100');
+                    authCard.classList.add('scale-95');
+                }
+                if (authModal) {
+                    authModal.classList.remove('opacity-100');
+                    authModal.classList.add('opacity-0');
+                    setTimeout(() => {
+                        authModal.classList.add('pointer-events-none');
+                    }, 250);
+                }
+                document.body.style.overflow = '';
+            };
+
+            // Triggers
+            document.querySelectorAll('#nav-login-btn, #mobile-drawer-login-btn, #mobile-quick-login-btn').forEach(btn => {
+                btn?.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    if (typeof closeDrawer === 'function') closeDrawer();
+                    openAuthModal('login');
+                });
+            });
+
+            document.querySelectorAll('#nav-signup-btn, #mobile-drawer-signup-btn').forEach(btn => {
+                btn?.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    if (typeof closeDrawer === 'function') closeDrawer();
+                    openAuthModal('signup');
+                });
+            });
+
+            tabLogin?.addEventListener('click', () => setAuthMode('login'));
+            tabSignup?.addEventListener('click', () => setAuthMode('signup'));
+            switchToSignup?.addEventListener('click', (e) => { e.preventDefault(); setAuthMode('signup'); });
+            switchToLogin?.addEventListener('click', (e) => { e.preventDefault(); setAuthMode('login'); });
+            authClose?.addEventListener('click', closeAuthModal);
+            authModal?.addEventListener('click', (e) => {
+                if (e.target === authModal) closeAuthModal();
+            });
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && authModal && !authModal.classList.contains('pointer-events-none')) {
+                    closeAuthModal();
+                }
+            });
+
             // Dynamic Active Page Highlighter (Desktop & Mobile)
             const currentPath = window.location.pathname;
             let currentPage = currentPath.substring(currentPath.lastIndexOf('/') + 1);
@@ -1209,7 +1532,7 @@
         if (window.location.pathname.includes('home2.html')) { document.title = "Chai House | Premium Edition"; }
     </script>
     <!-- Floating Call Button -->
-    <a href="tel:8005557655" class="fixed bottom-6 right-6 bg-accent text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl z-[90] hover:bg-accent-dark transition-transform hover:scale-110 flex md:hidden" style="box-shadow: 0 4px 14px rgba(139, 92, 246, 0.5);">
+    <a href="tel:8005557655" class="fixed bottom-6 right-6 bg-accent text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl z-[90] hover:bg-accent-dark transition-transform hover:scale-110 flex md:hidden" style="box-shadow: 0 4px 14px rgba(216, 67, 21, 0.45);">
         <i class="fas fa-phone text-2xl"></i>
     </a>
 </body>
